@@ -1,4 +1,4 @@
-#resources component
+# Resources component
 
 - Version: 0.0.0.1
 - Source: https://github.com/utrecht/agendas
@@ -7,14 +7,14 @@
 
 Referentieimplementatie van de resources Component (TC).
 
-##Inleiding
+## Inleiding
 
 Deze referentieimplementatie toont aan dat de API specificatie voor de resources implementeerbaar is, en vormt een voorbeeld voor andere implementaties indien ergens twijfel bestaat.
 
 Deze component heeft ook een [testomgeving](http://resources.demo.zaakonline.nl/) waar leveranciers tegenaan kunnen
 testen.
 
-##Documentatie
+## Documentatie
 Om het voor andere partijen zo makkelijk mogenlijk te maken dit component bieden we zo veel mogenlijk informatie openbaar aan.
 
 - [Installatie handleiding](INSTALL.md) voor installatieinstructies, beschikbare instellingen en commando's.
@@ -28,9 +28,9 @@ Om het voor andere partijen zo makkelijk mogenlijk te maken dit component bieden
 - [docker container](https://cloud.docker.com/u/huwelijksplanner/repository/docker/huwelijksplanner/resources-component) op docker hub.
 - [online demo](http://resources.demo.zaakonline.nl/) op testomgeving zaakonline.
 
-##Licentie
+## Licentie
 
 Copyright © Gemeente Utrecht 2019
 
-Gelicenceert onder [EUPL](LICENCE.md)
+Gelicenseerd onder [EUPL](LICENCE.md)
 
