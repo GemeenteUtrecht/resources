@@ -3,11 +3,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Huwelijk;
+use App\Entity\Document;
 
-class HuwelijkController
+class DocumentController
 {
-	public function __invoke(Huwelijk $data): Huwelijk
+	public function __invoke(Document $data): Document
 	{
 		//$this->bookPublishingHandler->handle($data);
 		
