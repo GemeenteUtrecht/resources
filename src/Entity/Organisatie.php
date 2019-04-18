@@ -204,8 +204,7 @@ class Organisatie implements StringableInterface
 	 *     }
 	 * )
 	 */
-	public $kvk;
-	
+	public $kvk;	
 	
 	/**
 	 * Het BTW nummer van deze organisatie https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/btw/administratie_bijhouden/btw_nummers_controleren/uw_btw_nummer, het btw nummer moet het RSIN nummer bevatten.
@@ -236,8 +235,7 @@ class Organisatie implements StringableInterface
 	 *     }
 	 * )
 	 */
-	public $btw;
-	
+	public $btw;	
 	
 	/**
 	 * Het EORI (Europese Douane NR) van deze organisatie, zie ook https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/douane_voor_bedrijven/naslagwerken_en_overige_informatie/eori_nummer/
