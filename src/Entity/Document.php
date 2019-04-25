@@ -23,7 +23,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @version    	1.0
  *
  * @link   		http//:www.conduction.nl
- * @package		Commen Ground
+ * @package		Common Ground
  * @subpackage  Documenten
  * 
  *  @ApiResource( 
@@ -33,6 +33,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
+ * 				"summary" = "Haalt een verzameling van documenten op"
  *  		}
  *  	},
  *  	"post"={
@@ -40,6 +41,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
+ * 					"summary" = "Maak een document aan"
  *  		}
  *  	}
  *  },
@@ -49,6 +51,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Haal een specifiek document op"
  *  		}
  *  	},
  *     "put"={
@@ -56,6 +59,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Vervang een specifiek document"
  *  		}
  *  	},
  *     "delete"={
@@ -63,6 +67,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Verwijder een specifiek document"
  *  		}
  *  	},
  *     "log"={
@@ -89,7 +94,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Huwelijk of aanvraag niet gevonden"
+ *         				"description" = "Document niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -118,7 +123,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Huwelijk of aanvraag niet gevonden"
+ *         				"description" = "Document niet gevonden"
  *         			}
  *            	}            
  *         }
