@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 
 /**
- * A user, as unique signed in individual who might be a member of an organisation
+ * Een user of applicatie is een unique geidentificeerde entiteit wat een onderdeel van een organisatie kan zijn.
  * 
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
@@ -47,7 +47,7 @@ class User extends BaseUser implements StringableInterface
 	protected $plainPassword;/**
 		
 	/**
-	 * De voorkeurs taal van deze gebruiker <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
+	 * De voorkeurstaal van deze gebruiker <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
 	 *
 	 * @var string Een Unicode language identifier, ofwel RFC 3066 taalcode.
 	 *
@@ -61,8 +61,8 @@ class User extends BaseUser implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 17,
-	 *      minMessage = "De taal moet ten minste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "De taal kan niet langer dan {{ limit }} karakters zijn"
+	 *      minMessage = "De taal moet tenminste {{ limit }} tekens lang zijn",
+	 *      maxMessage = "De taal kan niet langer dan {{ limit }} tekens zijn"
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -74,11 +74,11 @@ class User extends BaseUser implements StringableInterface
 	 *         }
 	 *     }
 	 * )
-	 **/
+	 */
 	public $taal = 'nl';
-		
+	
 	/**
-	 * De organisatie waartoe deze gebruiker behoord
+	 * De Organisatie waar aan deze gebruiker behoord
 	 *
 	 * @var \App\Entity\Organisatie
 	 * @ORM\ManyToOne(targetEntity="\App\Entity\Organisatie", cascade={"persist", "remove"}, inversedBy="users")
@@ -95,7 +95,7 @@ class User extends BaseUser implements StringableInterface
 	}
 	
 	/**
-	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
+	 * Vanuit rendering perspectief (voor bijvoorbeeld logging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
 	{
