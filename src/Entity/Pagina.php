@@ -239,6 +239,8 @@ class Pagina implements StringableInterface
 	 *         }
 	 *     }
 	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $naam;		
 	
@@ -267,6 +269,8 @@ class Pagina implements StringableInterface
 	 *         }
 	 *     }
 	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $titel;	
 	
@@ -279,6 +283,8 @@ class Pagina implements StringableInterface
 	 *     nullable=true
 	 * )
 	 * @Groups({"pagina:lezen"})
+	 * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $slug;	
 	
@@ -306,6 +312,7 @@ class Pagina implements StringableInterface
 	 *         }
 	 *     }
 	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
 	 */
 	public $beschrijving;
 	
@@ -333,6 +340,7 @@ class Pagina implements StringableInterface
 	 *         }
 	 *     }
 	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
 	 */
 	public $inhoud;
 	

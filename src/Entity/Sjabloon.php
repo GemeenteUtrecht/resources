@@ -215,29 +215,118 @@ class Sjabloon implements StringableInterface
 	public $bronOrganisatie;	
 	
 	/**
-	 * @var string The original name of this file.
+	 * @var string De naam van dit sjabloon (voor intern gebruik)
 	 *
-	 * @ORM\Column
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255
+	 * )
 	 * @Assert\NotBlank
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Start pagina van belangrijk procces",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $naam;
 	
 	/**
-	 * @var string De beschrijving van het doel van dit sjabloon
+	 * @var string De titel van dit sjabloon (voor extern gebruik)
 	 *
-	 * @ORM\Column
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255
+	 * )
 	 * @Assert\NotBlank
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Welkom bij het procces!",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
+	 */
+	public $titel;	
+	
+	/**
+	 * @var string De beschrijving van het doel van dit sjabloon (voor intern gebruik)
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text",
+	 *     nullable=true
+	 * )
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
 	 */
 	public $beschrijving;
 	
 	/**
-	 * @var string De daadwerlijke (twig) inhoud van dit sabloon
-	 *
-	 * @ORM\Column
+	 * @var string De daadwerlijke (twig) inhoud van dit sjabloon
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text"
+	 * )
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
 	 * @Assert\NotBlank
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 2500,
+	 *      minMessage = "De inhoud moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De inhoud mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Het is erg belangrijk dat u",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
 	 */
 	public $inhoud;
 	
