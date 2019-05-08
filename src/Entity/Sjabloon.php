@@ -60,7 +60,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  	},
  *     "put"={
  *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={""sjabloon:schrijven"}},
+ *  		"denormalizationContext"={"groups"={"sjabloon:schrijven"}},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek document"
@@ -149,7 +149,7 @@ class Sjabloon implements StringableInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen"})
 	 * @ApiProperty(iri="https://schema.org/identifier")
 	 */
 	public $id;
@@ -167,7 +167,7 @@ class Sjabloon implements StringableInterface
 	 *      max = 40,
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen", "sjabloon:schrijven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -196,7 +196,7 @@ class Sjabloon implements StringableInterface
 	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
 	 * @ApiFilter(OrderFilter::class)
 	 * @ApiProperty(
@@ -339,7 +339,7 @@ class Sjabloon implements StringableInterface
 	 * @ORM\Column(
 	 *     type     = "datetime"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $registratiedatum;
 	
@@ -353,7 +353,7 @@ class Sjabloon implements StringableInterface
 	 *     type     = "datetime",
 	 *     nullable	= true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $wijzigingsdatum;
 	
@@ -364,7 +364,7 @@ class Sjabloon implements StringableInterface
 	 *     type     = "string",
 	 *     nullable = true
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen", "sjabloon:schrijven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -388,7 +388,7 @@ class Sjabloon implements StringableInterface
 	 *
 	 * @Gedmo\Blameable(on="create")
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $eigenaar;
 		
