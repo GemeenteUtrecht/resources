@@ -149,7 +149,7 @@ class Pagina implements StringableInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
+	 * @Groups({"pagina:lezen", "pagina:weergeven"})
 	 * @ApiProperty(iri="https://schema.org/identifier")
 	 */
 	public $id;
@@ -167,7 +167,7 @@ class Pagina implements StringableInterface
 	 *      max = 40,
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"pagina:lezen", "pagina:weergeven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -196,7 +196,7 @@ class Pagina implements StringableInterface
 	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"pagina:lezen"})
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
 	 * @ApiFilter(OrderFilter::class)
 	 * @ApiProperty(
@@ -215,33 +215,388 @@ class Pagina implements StringableInterface
 	public $bronOrganisatie;	
 	
 	/**
-	 * @var string The original name of this file.
-	 *
-	 * @ORM\Column
-	 * @Assert\NotBlank
-	 * @Groups({"read"})
-	 */
-	public $naam;
-		
-	/**
-	 * @var string The location of this file.
+	 * @var string De naam van de pagina (voor intern gebruik)
 	 *
 	 * @ORM\Column(
-	 * 		nullable=true
+	 *     type     = "string",
+	 *     length   = 255
 	 * )
-	 * @Groups({"read"})
+	 * @Assert\NotBlank
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Start pagina van belangrijk procces",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
-	public $slug;
+	public $naam;		
 	
 	/**
-	 * @var string The base64 representation of this file
+	 * @var string De titel van de pagina (voor extern gebruik)
 	 *
 	 * @ORM\Column(
-	 * 		nullable=true
+	 *     type     = "string",
+	 *     length   = 255
 	 * )
-	 * @Groups({"read"})
+	 * @Assert\NotBlank
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Welkom bij het procces!",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
-	public $base64;
+	public $titel;	
+	
+	/**
+	 * @var string De locaties (of url deel) waarop deze pagina wordt terug gevonden
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen"})
+	 * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @ApiFilter(OrderFilter::class)
+	 */
+	public $slug;	
+	
+	/**
+	 * @var string De beschrijving van het doel van deze pagina (voor intern gebruik)
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text",
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 */
+	public $beschrijving;
+	
+	/**
+	 * @var string De daadwerlijke (twig) inhoud van deze pagina
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text"
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\NotBlank
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 2500,
+	 *      minMessage = "De inhoud moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De inhoud moag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Het is erg belangrijk dat u",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 */
+	public $inhoud;
+	
+	/**
+	 * @var string De beschrijving van het doel van deze pagina voor zoekmachines
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaDescription;
+	
+	/**
+	 * @var string Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een pagina gebruikt.
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De keywords moeten tesamen tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De keywords mogen tesamen  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="gemeente, pagina, burgers",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaKeywords;
+	
+	/**
+	 * @var string Hoe ver mogen zoekrobots je site doorzoeken en spideren?
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De robots moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De robots kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="INDEX, FOLLOW",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaRobots;
+	
+	/**
+	 * @var string Wanneer wil je dat de zoekmachine spiders je site weer bezoeken?
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De revisist afther moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De revisist afther kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="7 days",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaRevisitAfter;
+	
+	/**
+	 * @var string De auteur van de text, mag ook een organisatie zijn
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De auteur moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De auteur kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="John Do",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaAuthor;
+	
+	/**
+	 * @var string De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers of intellectual property
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De copyright verwijzing moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De copyright verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="https://opensource.org/licenses/MIT",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaCopyright;
+	
+	/**
+	 * @var string De meta contact name was in gebruik voor het vermelden van een contact email adres. 
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De contact verwijzing moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De contact verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="emailadres@domeinnaam.nl",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaContact;
+	
+	/**
+	 * @var string Als een pagina ter verduidelijking van een andere pagina dient, kan deze andere pagina hiermee worden aangehaald
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De oorspronkelijke bron moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De oorspronkelijke bron verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="http://www.mijngemeente.nl",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaOriginalSource;
+		
+	
+	/**
+	 * @var string Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moet worden gebruikt
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255,
+	 *     nullable=true
+	 * )
+	 * @Groups({"pagina:lezen","pagina:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De conical moet tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De conical verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="http://www.mijngemeente.nl",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 */
+	public $metaCanonical;
+	
 	
 	/**
 	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
@@ -252,7 +607,7 @@ class Pagina implements StringableInterface
 	 * @ORM\Column(
 	 *     type     = "datetime"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"pagina:lezen"})
 	 */
 	public $registratiedatum;
 	
@@ -266,7 +621,7 @@ class Pagina implements StringableInterface
 	 *     type     = "datetime",
 	 *     nullable	= true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"pagina:lezen"})
 	 */
 	public $wijzigingsdatum;
 	
@@ -277,7 +632,7 @@ class Pagina implements StringableInterface
 	 *     type     = "string",
 	 *     nullable = true
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"pagina:lezen", "pagina:weergeven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -301,7 +656,7 @@ class Pagina implements StringableInterface
 	 *
 	 * @Gedmo\Blameable(on="create")
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
-	 * @Groups({"read"})
+	 * @Groups({"pagina:lezen"})
 	 */
 	public $eigenaar;
 	

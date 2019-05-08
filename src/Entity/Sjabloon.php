@@ -60,7 +60,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  	},
  *     "put"={
  *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={""sjabloon:schrijven"}},
+ *  		"denormalizationContext"={"groups"={"sjabloon:schrijven"}},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek document"
@@ -149,7 +149,7 @@ class Sjabloon implements StringableInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen"})
 	 * @ApiProperty(iri="https://schema.org/identifier")
 	 */
 	public $id;
@@ -167,7 +167,7 @@ class Sjabloon implements StringableInterface
 	 *      max = 40,
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen", "sjabloon:schrijven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -196,7 +196,7 @@ class Sjabloon implements StringableInterface
 	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
 	 * @ApiFilter(OrderFilter::class)
 	 * @ApiProperty(
@@ -215,13 +215,120 @@ class Sjabloon implements StringableInterface
 	public $bronOrganisatie;	
 	
 	/**
-	 * @var string The original name of this file.
+	 * @var string De naam van dit sjabloon (voor intern gebruik)
 	 *
-	 * @ORM\Column
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255
+	 * )
 	 * @Assert\NotBlank
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Start pagina van belangrijk procces",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $naam;
+	
+	/**
+	 * @var string De titel van dit sjabloon (voor extern gebruik)
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255
+	 * )
+	 * @Assert\NotBlank
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Welkom bij het procces!",
+	 *             "maxLength"=0,
+	 *             "minLength"=255
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 * @ApiFilter(OrderFilter::class)
+	 */
+	public $titel;	
+	
+	/**
+	 * @var string De beschrijving van het doel van dit sjabloon (voor intern gebruik)
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text",
+	 *     nullable=true
+	 * )
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 255,
+	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 */
+	public $beschrijving;
+	
+	/**
+	 * @var string De daadwerlijke (twig) inhoud van dit sjabloon
+	 *	 
+	 * @ORM\Column(
+	 *     type     = "text"
+	 * )
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Assert\NotBlank
+	 * @Assert\Length(
+	 *      min = 0,
+	 *      max = 2500,
+	 *      minMessage = "De inhoud moeten tenminste {{ limit }} tekens bevatten",
+	 *      maxMessage = "De inhoud mag maximaal  {{ limit }} tekens bevatten"
+	 * )
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "example"="Het is erg belangrijk dat u",
+	 *             "maxLength"=0,
+	 *             "minLength"=2500
+	 *         }
+	 *     }
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="partial")
+	 */
+	public $inhoud;
 	
 	/**
 	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
@@ -232,7 +339,7 @@ class Sjabloon implements StringableInterface
 	 * @ORM\Column(
 	 *     type     = "datetime"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $registratiedatum;
 	
@@ -246,7 +353,7 @@ class Sjabloon implements StringableInterface
 	 *     type     = "datetime",
 	 *     nullable	= true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $wijzigingsdatum;
 	
@@ -257,7 +364,7 @@ class Sjabloon implements StringableInterface
 	 *     type     = "string",
 	 *     nullable = true
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"sjabloon:lezen", "sjabloon:schrijven"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -281,7 +388,7 @@ class Sjabloon implements StringableInterface
 	 *
 	 * @Gedmo\Blameable(on="create")
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
-	 * @Groups({"read"})
+	 * @Groups({"sjabloon:lezen"})
 	 */
 	public $eigenaar;
 		
