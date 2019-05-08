@@ -33,17 +33,17 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
- *      	"path"="/documenten",
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
+ *      	"path"="/paginas",
  *  		"openapi_context" = {
  * 				"summary" = "Haalt een verzameling van documenten op"
  *  		}
  *  	},
  *  	"post"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:maken"}},
- *      	"path"="/documenten",
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:maken"}},
+ *      	"path"="/paginas",
  *  		"openapi_context" = {
  * 					"summary" = "Maak een document aan"
  *  		}
@@ -51,35 +51,35 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  },
  * 	itemOperations={
  *     "get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
+ *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Haal een specifiek document op"
  *  		}
  *  	},
  *     "put"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:schrijven"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"read"}},
+ *  		"denormalizationContext"={"groups"={"write"}},
+ *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek document"
  *  		}
  *  	},
  *     "delete"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:verwijderen"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"write"}},
+ *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Verwijder een specifiek document"
  *  		}
  *  	},
  *     "log"={
  *         	"method"="GET",
- *         	"path"="/documenten/{id}/log",
+ *         	"path"="/paginas/{id}/log",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:lezen"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
  *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
@@ -89,12 +89,27 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *            	}           
  *         }
  *     },
+ *     "render"={
+ *         	"method"="GET",
+ *         	"path"="/sjablonen/{id}/render",
+ *          "controller"= HuwelijkController::class,
+ *     		"normalization_context"={"groups"={"pagina:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:weergeven"}},
+ *         	"openapi_context" = {
+ *         		"summary" = "Render",
+ *         		"description" = "Vervang ingestelde variabelen in de pagina door meeggen array",
+ *          	"consumes" = {
+ *              	"application/json",
+ *               	"text/html",
+ *            	}           
+ *         }
+ *     },
  *     "revert"={
  *         	"method"="POST",
- *         	"path"="/documenten/{id}/revert/{version}",
+ *         	"path"="/paginas/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"pagina:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:schrijven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Versie terugdraaid",
  *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
@@ -124,7 +139,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @Gedmo\Loggable(logEntryClass="ActivityLogBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
  */
-class Document implements StringableInterface
+class Pagina implements StringableInterface
 {
 	/**
 	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -207,74 +222,7 @@ class Document implements StringableInterface
 	 * @Groups({"read"})
 	 */
 	public $naam;
-	
-	/**
-	 * @var string The original name of this file.
-	 *
-	 * @ORM\Column
-	 * @Assert\NotBlank
-	 * @Groups({"read"})
-	 */
-	public $orgineleNaam;
-	
-	/**
-	 * @var string The extention of this file in bytes, where 1024 reprecent 1KB and 1048576 1MB
-	 *
-	 * @ORM\Column(
-	 * 		type="integer", 		
-	 * 		nullable=true
-	 * )
-	 * @Assert\NotBlank
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "swagger_context"={
-	 *             "type"="integer",
-	 *             "example"="1024"
-	 *         }
-	 *     }
-	 * )
-	 * @Groups({"read"})
-	 */
-	public $size;
-	
-	/**
-	 * @var string The extention of this file.
-	 *
-	 * @ORM\Column
-	 * @Assert\NotBlank
-	 * @ApiProperty(
-	 * 	   iri="https://www.iana.org/assignments/media-types/media-types.xhtml",
-	 *     attributes={
-	 *         "swagger_context"={
-	 *             "type"="string",
-	 *             "example"="png"
-	 *         }
-	 *     }
-	 * )
-	 * @Groups({"read"})
-	 */
-	public $extention;
-	
-	/**
-	 * @var string The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.
-	 *
-	 * @ORM\Column(
-	 * 		nullable=true
-	 * )
-	 * @Assert\NotBlank
-	 * @ApiProperty(
-	 * 	   iri="https://www.iana.org/assignments/media-types/media-types.xhtml",
-	 *     attributes={
-	 *         "swagger_context"={
-	 *             "type"="string",
-	 *             "example"="image/png"
-	 *         }
-	 *     }
-	 * )
-	 * @Groups({"read"})
-	 */
-	public $mimeType;
-	
+		
 	/**
 	 * @var string The location of this file.
 	 *
@@ -283,7 +231,7 @@ class Document implements StringableInterface
 	 * )
 	 * @Groups({"read"})
 	 */
-	public $url;
+	public $slug;
 	
 	/**
 	 * @var string The base64 representation of this file
@@ -357,6 +305,47 @@ class Document implements StringableInterface
 	 */
 	public $eigenaar;
 	
+	/*
+	 * Dan hebben we uiteraard nog een paar call specificieke properties
+	 * 
+	 */
+	
+	/**
+	 * Variabelen die worden gebruikt in het criëren van een weergaven voor deze pagina
+	 *
+	 * @Groups({"pagina:weergeven"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="variabelen",
+	 *             "type"="array",
+	 *             "example"="[]",
+	 *             "format"="array"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $variabelen;
+	
+	/**
+	 * Een overzicht van alle op deze pagina uitgevoerde wijzigingen
+ 	 *
+	 * @Groups({"pagina:logboek"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="logboek",
+	 *             "type"="array",
+	 *             "example"="[]",
+	 *             "format"="array"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $logboek;
+	
 	/**
 	 * @return string
 	 */
@@ -385,6 +374,6 @@ class Document implements StringableInterface
 	}
 	public function getUrl()
 	{
-		return 'http://resources.demo.zaakonline.nl/documenten/'.$this->id;
+		return 'http://resources.demo.zaakonline.nl/paginas/'.$this->id;
 	}
 }
