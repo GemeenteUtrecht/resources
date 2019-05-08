@@ -33,17 +33,17 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
- *      	"path"="/documenten",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:lezen"}},
+ *      	"path"="/afbeeldingen",
  *  		"openapi_context" = {
  * 				"summary" = "Haalt een verzameling van documenten op"
  *  		}
  *  	},
  *  	"post"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:maken"}},
- *      	"path"="/documenten",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:maken"}},
+ *      	"path"="/afbeeldingen",
  *  		"openapi_context" = {
  * 					"summary" = "Maak een document aan"
  *  		}
@@ -51,35 +51,35 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  },
  * 	itemOperations={
  *     "get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:lezen"}},
+ *      	"path"="/afbeeldingen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Haal een specifiek document op"
  *  		}
  *  	},
  *     "put"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:schrijven"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:verwijderen"}},
+ *      	"path"="/afbeeldingen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek document"
  *  		}
  *  	},
  *     "delete"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:verwijderen"}},
- *      	"path"="/documenten/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:verwijderen"}},
+ *      	"path"="/afbeeldingen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Verwijder een specifiek document"
  *  		}
  *  	},
  *     "log"={
  *         	"method"="GET",
- *         	"path"="/documenten/{id}/log",
+ *         	"path"="/afbeeldingen/{id}/log",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"afbeelding:lezen"}},
+ *     		"denormalization_context"={"groups"={"afbeelding:logboek"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
  *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
@@ -91,10 +91,10 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     },
  *     "revert"={
  *         	"method"="POST",
- *         	"path"="/documenten/{id}/revert/{version}",
+ *         	"path"="/afbeeldingen/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"afbeelding:lezen"}},
+ *     		"denormalization_context"={"groups"={"afbeelding:schrijven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Versie terugdraaid",
  *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
@@ -124,7 +124,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @Gedmo\Loggable(logEntryClass="ActivityLogBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
  */
-class Document implements StringableInterface
+class Afbeelding implements StringableInterface
 {
 	/**
 	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -385,6 +385,6 @@ class Document implements StringableInterface
 	}
 	public function getUrl()
 	{
-		return 'http://resources.demo.zaakonline.nl/documenten/'.$this->id;
+		return 'http://resources.demo.zaakonline.nl/afbeeldingen/'.$this->id;
 	}
 }
