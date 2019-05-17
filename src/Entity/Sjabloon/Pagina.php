@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Sjabloon;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
@@ -155,126 +155,6 @@ class Pagina implements StringableInterface
 	public $id;
 	
 	/**
-	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
-	 *
-	 * @var string
-	 * @ORM\Column(
-	 *     type     = "string",
-	 *     length   = 40,
-	 *     nullable=true
-	 * )
-	 * @Assert\Length(
-	 *      max = 40,
-	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
-	 * )
-	 * @Groups({"pagina:lezen", "pagina:weergeven"})
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "example"="6a36c2c4-213e-4348-a467-dfa3a30f64aa",
-	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreeerd.",
-	 *             "maxLength"=40
-	 *         }
-	 *     }
-	 * )
-	 * @Gedmo\Versioned
-	 */
-	public $identificatie;
-	
-	/**
-	 * Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
-	 *
-	 * @var integer
-	 * @ORM\Column(
-	 *     type     = "integer",
-	 *     length   = 9
-	 * )
-	 * @Assert\Length(
-	 *      min = 8,
-	 *      max = 9,
-	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
-	 * )
-	 * @Groups({"pagina:lezen"})
-	 * @ApiFilter(SearchFilter::class, strategy="exact")
-	 * @ApiFilter(OrderFilter::class)
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "title"="bronOrganisatie",
-	 *             "type"="string",
-	 *             "example"="123456789",
-	 *             "required"="true",
-	 *             "maxLength"=9,
-	 *             "minLength"=8
-	 *         }
-	 *     }
-	 * )
-	 */
-	public $bronOrganisatie;	
-	
-	/**
-	 * @var string De naam van de pagina (voor intern gebruik)
-	 *
-	 * @ORM\Column(
-	 *     type     = "string",
-	 *     length   = 255
-	 * )
-	 * @Assert\NotBlank
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
-	 * @Assert\Length(
-	 *      min = 0,
-	 *      max = 255,
-	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
-	 * )
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "example"="Start pagina van belangrijk procces",
-	 *             "maxLength"=0,
-	 *             "minLength"=255
-	 *         }
-	 *     }
-	 * )
-	 * @ApiFilter(SearchFilter::class, strategy="partial")
-	 * @ApiFilter(OrderFilter::class)
-	 */
-	public $naam;		
-	
-	/**
-	 * @var string De titel van de pagina (voor extern gebruik)
-	 *
-	 * @ORM\Column(
-	 *     type     = "string",
-	 *     length   = 255
-	 * )
-	 * @Assert\NotBlank
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
-	 * @Assert\Length(
-	 *      min = 0,
-	 *      max = 255,
-	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
-	 * )
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "example"="Welkom bij het procces!",
-	 *             "maxLength"=0,
-	 *             "minLength"=255
-	 *         }
-	 *     }
-	 * )
-	 * @ApiFilter(SearchFilter::class, strategy="partial")
-	 * @ApiFilter(OrderFilter::class)
-	 */
-	public $titel;	
-	
-	/**
 	 * @var string De locaties (of url deel) waarop deze pagina wordt terug gevonden
 	 *	 
 	 * @ORM\Column(
@@ -287,62 +167,6 @@ class Pagina implements StringableInterface
 	 * @ApiFilter(OrderFilter::class)
 	 */
 	public $slug;	
-	
-	/**
-	 * @var string De beschrijving van het doel van deze pagina (voor intern gebruik)
-	 *	 
-	 * @ORM\Column(
-	 *     type     = "text",
-	 *     nullable=true
-	 * )
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
-	 * @Assert\Length(
-	 *      min = 0,
-	 *      max = 255,
-	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
-	 * )
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
-	 *             "maxLength"=0,
-	 *             "minLength"=2500
-	 *         }
-	 *     }
-	 * )
-	 * @ApiFilter(SearchFilter::class, strategy="partial")
-	 */
-	public $beschrijving;
-	
-	/**
-	 * @var string De daadwerlijke (twig) inhoud van deze pagina
-	 *	 
-	 * @ORM\Column(
-	 *     type     = "text"
-	 * )
-	 * @Groups({"pagina:lezen","pagina:schrijven"})
-	 * @Assert\NotBlank
-	 * @Assert\Length(
-	 *      min = 0,
-	 *      max = 2500,
-	 *      minMessage = "De inhoud moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De inhoud moag maximaal  {{ limit }} tekens bevatten"
-	 * )
-	 * @ApiProperty(
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "example"="Het is erg belangrijk dat u",
-	 *             "maxLength"=0,
-	 *             "minLength"=2500
-	 *         }
-	 *     }
-	 * )
-	 * @ApiFilter(SearchFilter::class, strategy="partial")
-	 */
-	public $inhoud;
 	
 	/**
 	 * @var string De beschrijving van het doel van deze pagina voor zoekmachines

@@ -213,6 +213,30 @@ class Sjabloon implements StringableInterface
 	 * )
 	 */
 	public $bronOrganisatie;	
+	/**
+	 * @var string Het soort sjabloon
+	 *
+	 * @ORM\Column
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "enum"={"bericht", "pagina"},
+	 *             "example"="simple",
+	 *             "required"="true"
+	 *         }
+	 *     }
+	 * )
+	 * @Assert\NotBlank
+	 * @Assert\Choice(
+	 *     choices = { "bericht", "pagina"},
+	 *     message = "Kies bericht of pagina"
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @ApiFilter(OrderFilter::class)
+	 * @Groups({"read", "write"})
+	 */
+	public $type;
 	
 	/**
 	 * @var string De naam van dit sjabloon (voor intern gebruik)

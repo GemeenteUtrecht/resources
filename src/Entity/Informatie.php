@@ -124,7 +124,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @Gedmo\Loggable(logEntryClass="ActivityLogBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
  */
-class Document implements StringableInterface
+class Informatie implements StringableInterface
 {
 	/**
 	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -197,7 +197,31 @@ class Document implements StringableInterface
 	 *     }
 	 * )
 	 */
-	public $bronOrganisatie;	
+	public $bronOrganisatie;
+	/**
+	 * @var string Het soort sjabloon
+	 *
+	 * @ORM\Column
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "type"="string",
+	 *             "enum"={"afbeelding", "film", "applicatie"},
+	 *             "example"="simple",
+	 *             "required"="true"
+	 *         }
+	 *     }
+	 * )
+	 * @Assert\NotBlank
+	 * @Assert\Choice(
+	 *     choices = { "bericht", "pagina"},
+	 *     message = "Kies bericht of pagina"
+	 * )
+	 * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @ApiFilter(OrderFilter::class)
+	 * @Groups({"read", "write"})
+	 */
+	public $type;
 	
 	/**
 	 * @var string The original name of this file.

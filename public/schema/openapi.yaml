@@ -2558,11 +2558,23 @@ components:
     'Sjabloon-sjabloon:lezen':
       type: object
       description: Document
-      required:
-        - naam
-        - titel
-        - inhoud
       properties:
+        id:
+          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          type: integer
+        identificatie:
+          type: string
+          example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          maxLength: 40
+        bronOrganisatie:
+          title: bronOrganisatie
+          type: string
+          example: '123456789'
+          required: 'true'
+          maxLength: 9
+          minLength: 8
+          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
         naam:
           type: string
           example: 'Start pagina van belangrijk procces'
@@ -2587,14 +2599,38 @@ components:
           maxLength: 0
           minLength: 2500
           description: 'De daadwerlijke (twig) inhoud van dit sjabloon'
+        registratiedatum:
+          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          type: string
+          format: date-time
+        wijzigingsdatum:
+          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          type: string
+          format: date-time
+        contactPersoon:
+          title: Contactpersoon
+          type: url
+          example: 'https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65'
+          required: 'true'
+          maxLength: 255
+          format: uri
+          description: 'Het contact persoon voor dit document'
+        eigenaar:
+          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          type: string
+      required:
+        - naam
+        - titel
+        - inhoud
     'Sjabloon-sjabloon:schrijven':
       type: object
       description: Document
-      required:
-        - naam
-        - titel
-        - inhoud
       properties:
+        identificatie:
+          type: string
+          example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          maxLength: 40
         naam:
           type: string
           example: 'Start pagina van belangrijk procces'
@@ -2619,6 +2655,18 @@ components:
           maxLength: 0
           minLength: 2500
           description: 'De daadwerlijke (twig) inhoud van dit sjabloon'
+        contactPersoon:
+          title: Contactpersoon
+          type: url
+          example: 'https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65'
+          required: 'true'
+          maxLength: 255
+          format: uri
+          description: 'Het contact persoon voor dit document'
+      required:
+        - naam
+        - titel
+        - inhoud
   securitySchemes:
     apiKey:
       type: apiKey
