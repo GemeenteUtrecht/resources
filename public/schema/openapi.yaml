@@ -71,7 +71,7 @@ info:
     
     Let er bij het meegeven van JWT tokens op dat deze moet worden voorafgegaan door een Bearer en een spatie, onder de header Authorization. De volledig naam wordt daarmee: 'Authorization: Bearer [TOKEN]'.
     
-  version: 0.0.1
+  version: '0.0.21 Alpha'
   title: 'Resources API'
   termsOfService: 'http://www.zaakonline.nl/terms/'
   contact:
@@ -87,7 +87,7 @@ info:
 paths:
   /afbeeldingen:
     get:
-      summary: 'Haalt een verzameling van documenten op'
+      summary: 'Haalt een verzameling van afbeeldingen op'
       tags:
         - Afbeelding
       operationId: getAfbeeldingCollection
@@ -134,7 +134,7 @@ paths:
           schema:
             type: string
     post:
-      summary: 'Maak een document aan'
+      summary: 'Maak een afbeelding aan'
       tags:
         - Afbeelding
       operationId: postAfbeeldingCollection
@@ -175,7 +175,7 @@ paths:
         description: 'The new Afbeelding resource'
   '/afbeeldingen/{id}':
     get:
-      summary: 'Haal een specifiek document op'
+      summary: 'Haal een specifieke afbeelding op'
       tags:
         - Afbeelding
       operationId: getAfbeeldingItem
@@ -202,7 +202,7 @@ paths:
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifiek document'
+      summary: 'Vervang een specifieke afbeelding'
       tags:
         - Afbeelding
       operationId: putAfbeeldingItem
@@ -243,7 +243,7 @@ paths:
               $ref: '#/components/schemas/Afbeelding'
         description: 'The updated Afbeelding resource'
     delete:
-      summary: 'Verwijder een specifiek document'
+      summary: 'Verwijder een specifieke afbeelding'
       tags:
         - Afbeelding
       operationId: deleteAfbeeldingItem
@@ -293,7 +293,7 @@ paths:
           description: 'Resource not found'
   '/afbeeldingen/{id}/revert/{version}':
     post:
-      summary: 'Versie terugdraaid'
+      summary: 'Versie herstellen'
       description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
       consumes:
         - application/json
@@ -302,11 +302,11 @@ paths:
         - application/json
       responses:
         202:
-          description: 'Terug gedraaid naar eerdere versie'
+          description: 'Een eerdere versie hersteld'
         400:
           description: 'Ongeldige aanvraag'
         404:
-          description: 'Document niet gevonden'
+          description: 'Afbeelding niet gevonden'
       tags:
         - Afbeelding
       operationId: revertAfbeeldingItem
@@ -325,7 +325,7 @@ paths:
   '/applicatie/{id}':
     get:
       summary: 'Haal op'
-      description: 'Haal een Applicatie op'
+      description: 'Haal een Applicatie op.'
       tags:
         - Applicatie
       operationId: getApplicatieItem
@@ -353,7 +353,7 @@ paths:
           description: 'Resource not found'
     put:
       summary: 'Werk bij'
-      description: 'Werk een Applicatie bij'
+      description: 'Werk een Applicatie bij.'
       tags:
         - Applicatie
       operationId: putApplicatieItem
@@ -396,7 +396,7 @@ paths:
   '/applicatie/{id}/log':
     get:
       summary: Logboek
-      description: 'Bekijk de wijzigingen op dit Applicatie object'
+      description: 'Bekijk de wijzigingen op dit Applicatie object.'
       tags:
         - Applicatie
       operationId: logApplicatieItem
@@ -599,31 +599,278 @@ paths:
           required: false
           schema:
             type: string
-  /documenten:
+  /berichten:
     get:
-      summary: 'Haalt een verzameling van documenten op'
+      summary: 'Haalt een verzameling van Bericht sjablonen op.'
       tags:
-        - Document
-      operationId: getDocumentCollection
+        - Bericht
+      operationId: getBerichtCollection
       responses:
         200:
-          description: 'Document collection response'
+          description: 'Bericht collection response'
           content:
             application/ld+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: '#/components/schemas/Bericht'
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: '#/components/schemas/Bericht'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: '#/components/schemas/Bericht'
+      parameters: []
+    post:
+      summary: 'Maak een Bericht sjabloon aan.'
+      tags:
+        - Bericht
+      operationId: postBerichtCollection
+      responses:
+        201:
+          description: 'Bericht resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+          links:
+            GetBerichtItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getBerichtItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /berichten/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+        description: 'The new Bericht resource'
+  '/berichten/{id}':
+    get:
+      summary: 'Haal een specifiek Bericht sjabloon op.'
+      tags:
+        - Bericht
+      operationId: getBerichtItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Bericht resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+        404:
+          description: 'Resource not found'
+    put:
+      summary: 'Vervang een specifiek Bericht sjabloon.'
+      tags:
+        - Bericht
+      operationId: putBerichtItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Bericht resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Bericht'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Bericht'
+        description: 'The updated Bericht resource'
+    delete:
+      summary: 'Verwijder een specifiek Bericht sjabloon.'
+      tags:
+        - Bericht
+      operationId: deleteBerichtItem
+      responses:
+        204:
+          description: 'Bericht resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  '/berichten/{id}/log':
+    get:
+      summary: 'Logboek inzien'
+      description: 'Geeft een array van eerdere versies en wijzigingen van dit Bericht sjabloon.'
+      consumes:
+        - application/json
+        - text/html
+      tags:
+        - Bericht
+      operationId: logBerichtItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Bericht resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Bericht-sjabloon:lezen'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bericht-sjabloon:lezen'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Bericht-sjabloon:lezen'
+        404:
+          description: 'Resource not found'
+  '/berichten/{id}/render':
+    get:
+      summary: Render
+      description: 'Vervang ingestelde variabelen in het Bericht sjabloon mee gegeven array in een.'
+      consumes:
+        - application/json
+        - text/html
+      tags:
+        - Bericht
+      operationId: renderBerichtItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Bericht resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Bericht-pagina:lezen'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bericht-pagina:lezen'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Bericht-pagina:lezen'
+        404:
+          description: 'Resource not found'
+  '/berichten/{id}/revert/{version}':
+    post:
+      summary: 'Versie herstellen'
+      description: 'Herstel een eerdere versie van dit Bericht sjabloon. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
+      consumes:
+        - application/json
+        - text/html
+      produces:
+        - application/json
+      responses:
+        202:
+          description: 'Herstel naar eerdere versie'
+        400:
+          description: 'Ongeldige aanvraag'
+        404:
+          description: 'Bericht sjabloon niet gevonden'
+      tags:
+        - Bericht
+      operationId: revertBerichtItem
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Bericht-pagina:schrijven'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bericht-pagina:schrijven'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Bericht-pagina:schrijven'
+        description: 'The new Bericht resource'
+  /documenten:
+    get:
+      summary: 'Haalt een verzameling van informatie objecten op.'
+      tags:
+        - Informatie
+      operationId: getInformatieCollection
+      responses:
+        200:
+          description: 'Informatie collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Informatie'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Informatie'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Informatie'
       parameters:
         -
           name: bronOrganisatie
@@ -642,34 +889,56 @@ paths:
           style: form
           explode: true
         -
+          name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'type[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: 'order[bronOrganisatie]'
           in: query
           required: false
           schema:
             type: string
+        -
+          name: 'order[type]'
+          in: query
+          required: false
+          schema:
+            type: string
     post:
-      summary: 'Maak een document aan'
+      summary: 'Maak een informatie object aan.'
       tags:
-        - Document
-      operationId: postDocumentCollection
+        - Informatie
+      operationId: postInformatieCollection
       responses:
         201:
-          description: 'Document resource created'
+          description: 'Informatie resource created'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             text/html:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
           links:
-            GetDocumentItem:
+            GetInformatieItem:
               parameters:
                 id: '$response.body#/id'
-              operationId: getDocumentItem
+              operationId: getInformatieItem
               description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /documenten/{id}`.'
         400:
           description: 'Invalid input'
@@ -679,20 +948,20 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Informatie'
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Informatie'
           text/html:
             schema:
-              $ref: '#/components/schemas/Document'
-        description: 'The new Document resource'
+              $ref: '#/components/schemas/Informatie'
+        description: 'The new Informatie resource'
   '/documenten/{id}':
     get:
-      summary: 'Haal een specifiek document op'
+      summary: 'Haal een specifiek informatie object op.'
       tags:
-        - Document
-      operationId: getDocumentItem
+        - Informatie
+      operationId: getInformatieItem
       parameters:
         -
           name: id
@@ -702,24 +971,24 @@ paths:
             type: string
       responses:
         200:
-          description: 'Document resource response'
+          description: 'Informatie resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             text/html:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifiek document'
+      summary: 'Vervang een specifiek informatie object.'
       tags:
-        - Document
-      operationId: putDocumentItem
+        - Informatie
+      operationId: putInformatieItem
       parameters:
         -
           name: id
@@ -729,17 +998,17 @@ paths:
             type: string
       responses:
         200:
-          description: 'Document resource updated'
+          description: 'Informatie resource updated'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
             text/html:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Informatie'
         400:
           description: 'Invalid input'
         404:
@@ -748,22 +1017,22 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Informatie'
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Informatie'
           text/html:
             schema:
-              $ref: '#/components/schemas/Document'
-        description: 'The updated Document resource'
+              $ref: '#/components/schemas/Informatie'
+        description: 'The updated Informatie resource'
     delete:
-      summary: 'Verwijder een specifiek document'
+      summary: 'Verwijder een specifiek informatie object.'
       tags:
-        - Document
-      operationId: deleteDocumentItem
+        - Informatie
+      operationId: deleteInformatieItem
       responses:
         204:
-          description: 'Document resource deleted'
+          description: 'Informatie resource deleted'
         404:
           description: 'Resource not found'
       parameters:
@@ -776,13 +1045,13 @@ paths:
   '/documenten/{id}/log':
     get:
       summary: 'Logboek inzien'
-      description: 'Geeft een array van eerdere versies en wijzigingen van dit object'
+      description: 'Geeft een array van eerdere versies en wijzigingen van dit informatie object.'
       consumes:
         - application/json
         - text/html
       tags:
-        - Document
-      operationId: logDocumentItem
+        - Informatie
+      operationId: logInformatieItem
       parameters:
         -
           name: id
@@ -792,23 +1061,23 @@ paths:
             type: string
       responses:
         200:
-          description: 'Document resource response'
+          description: 'Informatie resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Document-document:lezen'
+                $ref: '#/components/schemas/Informatie-document:lezen'
             application/json:
               schema:
-                $ref: '#/components/schemas/Document-document:lezen'
+                $ref: '#/components/schemas/Informatie-document:lezen'
             text/html:
               schema:
-                $ref: '#/components/schemas/Document-document:lezen'
+                $ref: '#/components/schemas/Informatie-document:lezen'
         404:
           description: 'Resource not found'
   '/documenten/{id}/revert/{version}':
     post:
-      summary: 'Versie terugdraaid'
-      description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
+      summary: 'Versie herstellen'
+      description: 'Herstel een eerdere versie van dit informatie object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
       consumes:
         - application/json
         - text/html
@@ -816,29 +1085,29 @@ paths:
         - application/json
       responses:
         202:
-          description: 'Terug gedraaid naar eerdere versie'
+          description: 'Hersteld naar eerdere versie'
         400:
           description: 'Ongeldige aanvraag'
         404:
-          description: 'Document niet gevonden'
+          description: 'Informatie object niet gevonden'
       tags:
-        - Document
-      operationId: revertDocumentItem
+        - Informatie
+      operationId: revertInformatieItem
       requestBody:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Document-document:schrijven'
+              $ref: '#/components/schemas/Informatie-document:schrijven'
           application/json:
             schema:
-              $ref: '#/components/schemas/Document-document:schrijven'
+              $ref: '#/components/schemas/Informatie-document:schrijven'
           text/html:
             schema:
-              $ref: '#/components/schemas/Document-document:schrijven'
-        description: 'The new Document resource'
+              $ref: '#/components/schemas/Informatie-document:schrijven'
+        description: 'The new Informatie resource'
   /films:
     get:
-      summary: 'Haalt een verzameling van documenten op'
+      summary: 'Haalt een verzameling van Films op.'
       tags:
         - Film
       operationId: getFilmCollection
@@ -885,7 +1154,7 @@ paths:
           schema:
             type: string
     post:
-      summary: 'Maak een document aan'
+      summary: 'Maak een Film aan.'
       tags:
         - Film
       operationId: postFilmCollection
@@ -926,7 +1195,7 @@ paths:
         description: 'The new Film resource'
   '/films/{id}':
     get:
-      summary: 'Haal een specifiek document op'
+      summary: 'Haal een specifieke Film op.'
       tags:
         - Film
       operationId: getFilmItem
@@ -953,7 +1222,7 @@ paths:
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifiek document'
+      summary: 'Vervang een specifieke Film.'
       tags:
         - Film
       operationId: putFilmItem
@@ -994,7 +1263,7 @@ paths:
               $ref: '#/components/schemas/Film'
         description: 'The updated Film resource'
     delete:
-      summary: 'Verwijder een specifiek document'
+      summary: 'Verwijder een specifieke Film.'
       tags:
         - Film
       operationId: deleteFilmItem
@@ -1013,7 +1282,7 @@ paths:
   '/films/{id}/log':
     get:
       summary: 'Logboek inzien'
-      description: 'Geeft een array van eerdere versies en wijzigingen van dit object'
+      description: 'Geeft een array van eerdere versies en wijzigingen van deze object'
       consumes:
         - application/json
         - text/html
@@ -1044,7 +1313,7 @@ paths:
           description: 'Resource not found'
   '/films/{id}/revert/{version}':
     post:
-      summary: 'Versie terugdraaid'
+      summary: 'Versie herstellen'
       description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
       consumes:
         - application/json
@@ -1057,7 +1326,7 @@ paths:
         400:
           description: 'Ongeldige aanvraag'
         404:
-          description: 'Document niet gevonden'
+          description: 'Film niet gevonden'
       tags:
         - Film
       operationId: revertFilmItem
@@ -1076,7 +1345,7 @@ paths:
   /login_check:
     post:
       summary: 'Token halen'
-      description: 'Inloggen als Applicatie en JWT Token ophalen'
+      description: 'Inloggen als Applicatie en JWT Token ophalen.'
       tags:
         - Applicatie
       operationId: loginApplicatieCollection
@@ -1117,7 +1386,7 @@ paths:
         description: 'The new Applicatie resource'
   /paginas:
     get:
-      summary: 'Haalt een verzameling van documenten op'
+      summary: 'Haalt een verzameling van Pagina''s op.'
       tags:
         - Pagina
       operationId: getPaginaCollection
@@ -1142,34 +1411,6 @@ paths:
                   $ref: '#/components/schemas/Pagina'
       parameters:
         -
-          name: bronOrganisatie
-          in: query
-          required: false
-          schema:
-            type: integer
-        -
-          name: 'bronOrganisatie[]'
-          in: query
-          required: false
-          schema:
-            type: array
-            items:
-              type: integer
-          style: form
-          explode: true
-        -
-          name: naam
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: titel
-          in: query
-          required: false
-          schema:
-            type: string
-        -
           name: slug
           in: query
           required: false
@@ -1186,43 +1427,13 @@ paths:
           style: form
           explode: true
         -
-          name: beschrijving
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: inhoud
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: 'order[bronOrganisatie]'
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: 'order[naam]'
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: 'order[titel]'
-          in: query
-          required: false
-          schema:
-            type: string
-        -
           name: 'order[slug]'
           in: query
           required: false
           schema:
             type: string
     post:
-      summary: 'Maak een document aan'
+      summary: 'Maak een Pagina aan.'
       tags:
         - Pagina
       operationId: postPaginaCollection
@@ -1263,7 +1474,7 @@ paths:
         description: 'The new Pagina resource'
   '/paginas/{id}':
     get:
-      summary: 'Haal een specifiek document op'
+      summary: 'Haal een specifieke Pagina op.'
       tags:
         - Pagina
       operationId: getPaginaItem
@@ -1290,7 +1501,7 @@ paths:
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifiek document'
+      summary: 'Vervang een specifieke Pagina.'
       tags:
         - Pagina
       operationId: putPaginaItem
@@ -1331,7 +1542,7 @@ paths:
               $ref: '#/components/schemas/Pagina'
         description: 'The updated Pagina resource'
     delete:
-      summary: 'Verwijder een specifiek document'
+      summary: 'Verwijder een specifieke Pagina.'
       tags:
         - Pagina
       operationId: deletePaginaItem
@@ -1350,7 +1561,7 @@ paths:
   '/paginas/{id}/log':
     get:
       summary: 'Logboek inzien'
-      description: 'Geeft een array van eerdere versies en wijzigingen van dit object'
+      description: 'Geeft een array van eerdere versies en wijzigingen van dit Pagina object.'
       consumes:
         - application/json
         - text/html
@@ -1381,8 +1592,8 @@ paths:
           description: 'Resource not found'
   '/paginas/{id}/revert/{version}':
     post:
-      summary: 'Versie terugdraaid'
-      description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
+      summary: 'Versie herstellen'
+      description: 'Herstel een eerdere versie van dit Pagina object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
       consumes:
         - application/json
         - text/html
@@ -1394,7 +1605,7 @@ paths:
         400:
           description: 'Ongeldige aanvraag'
         404:
-          description: 'Document niet gevonden'
+          description: 'Pagina niet gevonden'
       tags:
         - Pagina
       operationId: revertPaginaItem
@@ -1413,7 +1624,7 @@ paths:
   /registreer:
     post:
       summary: Registreren
-      description: 'Registreer een nieuwe Applicatie voor dit component'
+      description: 'Registreer een nieuwe Applicatie voor dit component.'
       tags:
         - Applicatie
       operationId: registerApplicatieCollection
@@ -1454,7 +1665,7 @@ paths:
         description: 'The new Applicatie resource'
   /sjablonen:
     get:
-      summary: 'Haalt een verzameling van documenten op'
+      summary: 'Haalt een verzameling van Sjablonen op.'
       tags:
         - Sjabloon
       operationId: getSjabloonCollection
@@ -1495,6 +1706,22 @@ paths:
           style: form
           explode: true
         -
+          name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'type[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: naam
           in: query
           required: false
@@ -1525,6 +1752,12 @@ paths:
           schema:
             type: string
         -
+          name: 'order[type]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: 'order[naam]'
           in: query
           required: false
@@ -1537,7 +1770,7 @@ paths:
           schema:
             type: string
     post:
-      summary: 'Maak een document aan'
+      summary: 'Maak een Sjabloon aan.'
       tags:
         - Sjabloon
       operationId: postSjabloonCollection
@@ -1578,7 +1811,7 @@ paths:
         description: 'The new Sjabloon resource'
   '/sjablonen/{id}':
     get:
-      summary: 'Haal een specifiek document op'
+      summary: 'Haal een specifiek Sjabloon op.'
       tags:
         - Sjabloon
       operationId: getSjabloonItem
@@ -1605,7 +1838,7 @@ paths:
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifiek document'
+      summary: 'Vervang een specifiek Sjabloon.'
       tags:
         - Sjabloon
       operationId: putSjabloonItem
@@ -1646,7 +1879,7 @@ paths:
               $ref: '#/components/schemas/Sjabloon'
         description: 'The updated Sjabloon resource'
     delete:
-      summary: 'Verwijder een specifiek document'
+      summary: 'Verwijder een specifiek Sjabloon.'
       tags:
         - Sjabloon
       operationId: deleteSjabloonItem
@@ -1665,7 +1898,7 @@ paths:
   '/sjablonen/{id}/log':
     get:
       summary: 'Logboek inzien'
-      description: 'Geeft een array van eerdere versies en wijzigingen van dit object'
+      description: 'Geeft een array van eerdere versies en wijzigingen van dit Sjabloon.'
       consumes:
         - application/json
         - text/html
@@ -1697,7 +1930,7 @@ paths:
   '/sjablonen/{id}/render':
     get:
       summary: Render
-      description: 'Vervang ingestelde variabelen in het sjabloon door meeggen array'
+      description: 'Vervang ingestelde variabelen in het sjabloon door mee gegeven array.'
       consumes:
         - application/json
         - text/html
@@ -1728,8 +1961,8 @@ paths:
           description: 'Resource not found'
   '/sjablonen/{id}/revert/{version}':
     post:
-      summary: 'Versie terugdraaid'
-      description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
+      summary: 'Versie herstellen'
+      description: 'Herstel een eerdere versie van dit Sjabloon. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
       consumes:
         - application/json
         - text/html
@@ -1737,11 +1970,11 @@ paths:
         - application/json
       responses:
         202:
-          description: 'Terug gedraaid naar eerdere versie'
+          description: 'Hersteld naar eerdere versie'
         400:
           description: 'Ongeldige aanvraag'
         404:
-          description: 'Document niet gevonden'
+          description: 'Sjabloon niet gevonden'
       tags:
         - Sjabloon
       operationId: revertSjabloonItem
@@ -1764,15 +1997,15 @@ components:
   schemas:
     Afbeelding:
       type: object
-      description: Document
+      description: Afbeelding
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatienummer van deze afbeelding <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -1781,34 +2014,34 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe deze afbeelding behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven'
         naam:
-          description: 'The original name of this file.'
+          description: 'De naam van deze afbeelding.'
           type: string
         orgineleNaam:
-          description: 'The original name of this file.'
+          description: 'De originele naam van deze afbeelding.'
           type: string
         size:
-          description: 'The extention of this file in bytes, where 1024 reprecent 1KB and 1048576 1MB'
+          description: 'De grote van deze afbeelding in bytes, waar 1024 bytes ,1KB vertegenwoordigd en 1048576 bytes, 1MB.'
           type: integer
         extention:
-          description: 'The extention of this file.'
+          description: 'De extensie van dit bestand.'
           type: string
         mimeType:
-          description: 'The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.'
+          description: 'Het type afbeelding volgens <br> https://www.iana.org/assignments/media-types/media-types.xhtml.'
           type: string
         url:
-          description: 'The location of this file.'
+          description: 'De locatie van deze afbeelding (url).'
           type: string
         base64:
-          description: 'The base64 representation of this file'
+          description: 'De base64 representatie van deze file.'
           type: string
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop deze Afbeelding is aangemaakt'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Afbeelding voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -1818,9 +2051,9 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor deze afbeelding.'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheert en uitgeeft. De eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
       required:
         - naam
@@ -1830,10 +2063,10 @@ components:
         - mimeType
     'Afbeelding-afbeelding:lezen':
       type: object
-      description: Document
+      description: Afbeelding
     'Afbeelding-afbeelding:schrijven':
       type: object
-      description: Document
+      description: Afbeelding
     Applicatie:
       type: object
       description: 'Een Applicatie die is geidentificeerd en geautoriceerd om namens een organisatie wijzigingen uit te voeren'
@@ -1863,10 +2096,10 @@ components:
           minLength: 8
           description: 'Het RSIN van de organisatie waartoe deze Applicatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef.'
         isActief:
-          description: 'Word gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden'
+          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden.'
           type: boolean
         registratiedatum:
-          description: 'Het tijdstip waarop deze Applicatie is aangemaakt'
+          description: 'Het tijdstip waarop deze Applicatie is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -1888,7 +2121,7 @@ components:
           readOnly: true
           type: boolean
         username:
-          description: 'Username wordt door symfony gebruikt voor de gebruikersnaam maar in de context common ground component api gebruiken we hem niet en onderdrukken we hem door hem aan geen groepen toe te wijzen'
+          description: 'Username wordt door symfony gebruikt voor de gebruikersnaam maar in de context common ground component api gebruiken we hem niet en onderdrukken we hem door hem niet toe te wijzen aan groepen.'
         password:
           readOnly: true
         salt:
@@ -1929,10 +2162,10 @@ components:
           minLength: 8
           description: 'Het RSIN van de organisatie waartoe deze Applicatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef.'
         isActief:
-          description: 'Word gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden'
+          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden.'
           type: boolean
         registratiedatum:
-          description: 'Het tijdstip waarop deze Applicatie is aangemaakt'
+          description: 'Het tijdstip waarop deze Applicatie is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -1981,76 +2214,26 @@ components:
           maxLength: 255
           format: uri
           description: 'De contactpersoon voor deze Applicatie, die bijvoorbeeld wordt verwittigd bij misbruik.'
-    Document:
+    Bericht:
       type: object
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van dit Bericht sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
-        identificatie:
-          type: string
-          example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
-          maxLength: 40
-        bronOrganisatie:
-          title: bronOrganisatie
-          type: string
-          example: '123456789'
-          required: 'true'
-          maxLength: 9
-          minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
-        naam:
-          description: 'The original name of this file.'
-          type: string
-        orgineleNaam:
-          description: 'The original name of this file.'
-          type: string
-        size:
-          description: 'The extention of this file in bytes, where 1024 reprecent 1KB and 1048576 1MB'
-          type: integer
-        extention:
-          description: 'The extention of this file.'
-          type: string
-        mimeType:
-          description: 'The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.'
-          type: string
         url:
-          description: 'The location of this file.'
-          type: string
-        base64:
-          description: 'The base64 representation of this file'
-          type: string
-        registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
-          type: string
-          format: date-time
-        wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
-          type: string
-          format: date-time
-        contactPersoon:
-          title: Contactpersoon
-          type: url
-          example: 'https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65'
-          required: 'true'
-          maxLength: 255
-          format: uri
-          description: 'Het contact persoon voor dit document'
-        eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
-          type: string
-      required:
-        - naam
-        - orgineleNaam
-        - size
-        - extention
-        - mimeType
-    'Document-document:lezen':
+          readOnly: true
+    'Bericht-pagina:lezen':
       type: object
       description: Document
-    'Document-document:schrijven':
+      properties:
+        id:
+          description: 'Het identificatie nummer van dit Bericht sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          type: integer
+    'Bericht-pagina:schrijven':
+      type: object
+      description: Document
+    'Bericht-sjabloon:lezen':
       type: object
       description: Document
     Film:
@@ -2058,12 +2241,12 @@ components:
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van deze Film <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van deze Film binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -2072,34 +2255,34 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe deze Film behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.'
         naam:
-          description: 'The original name of this file.'
+          description: 'De naam van deze Film.'
           type: string
         orgineleNaam:
-          description: 'The original name of this file.'
+          description: 'De orgiginele naam van deze Film.'
           type: string
         size:
-          description: 'The extention of this file in bytes, where 1024 reprecent 1KB and 1048576 1MB'
+          description: 'De grote van deze Film in bytes, waar 1024 bytes overeenkomen met 1KB en 1048576 bytes met 1MB'
           type: integer
         extention:
-          description: 'The extention of this file.'
+          description: 'De extensie van deze Film.'
           type: string
         mimeType:
           description: 'The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.'
           type: string
         url:
-          description: 'The location of this file.'
+          description: 'De locatie van deze Film (url).'
           type: string
         base64:
           description: 'The base64 representation of this file'
           type: string
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop dit Film object is aangemaakt'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Film object voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -2109,9 +2292,9 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor dit document'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Film object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
       required:
         - naam
@@ -2125,17 +2308,17 @@ components:
     'Film-film:schrijven':
       type: object
       description: Document
-    Pagina:
+    Informatie:
       type: object
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van dit informatie object. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit informatie object binnen de organisatie die dit informatie object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -2144,52 +2327,97 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe dit informatie object behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven'
+        type:
+          type: string
+          enum:
+            - afbeelding
+            - film
+            - applicatie
+          example: simple
+          required: 'true'
+          description: 'Het soort sjabloon.'
         naam:
+          description: 'De naam van dit informatie object.'
           type: string
-          example: 'Start pagina van belangrijk procces'
-          maxLength: 0
-          minLength: 255
-          description: 'De naam van de pagina (voor intern gebruik)'
-        titel:
+        orgineleNaam:
+          description: 'De originele naam van dit informatie object.'
           type: string
-          example: 'Welkom bij het procces!'
-          maxLength: 0
-          minLength: 255
-          description: 'De titel van de pagina (voor extern gebruik)'
+        size:
+          description: 'De grote van dit informatie object in bytes, waar 1024 gelijk is aan 1KB en 1048576 aan 1MB.'
+          type: integer
+        extention:
+          description: 'De extentie van dit informatie object.'
+          type: string
+        mimeType:
+          description: 'Het bestandstype van dit informatie object volgens: <br> https://www.iana.org/assignments/media-types/media-types.xhtml.'
+          type: string
+        url:
+          description: 'De locatie van dit informatie object.'
+          type: string
+        base64:
+          description: 'De base64 representatie van dit informatie object.'
+          type: string
+        registratiedatum:
+          description: 'Het tijdstip waarop dit informatie object object is aangemaakt'
+          type: string
+          format: date-time
+        wijzigingsdatum:
+          description: 'Het tijdstip waarop dit informatie object voor het laatst is gewijzigd.'
+          type: string
+          format: date-time
+        contactPersoon:
+          title: Contactpersoon
+          type: url
+          example: 'https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65'
+          required: 'true'
+          maxLength: 255
+          format: uri
+          description: 'De contactpersoon voor dit informatie object.'
+        eigenaar:
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het informatie object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          type: string
+      required:
+        - type
+        - naam
+        - orgineleNaam
+        - size
+        - extention
+        - mimeType
+    'Informatie-document:lezen':
+      type: object
+      description: Document
+    'Informatie-document:schrijven':
+      type: object
+      description: Document
+    Pagina:
+      type: object
+      description: Document
+      properties:
+        id:
+          description: 'Het identificatie nummer van deze pagina. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          type: integer
         slug:
-          description: 'De locaties (of url deel) waarop deze pagina wordt terug gevonden'
+          description: 'De locaties (of url) waarop deze pagina wordt terug gevonden.'
           type: string
-        beschrijving:
-          type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
-          maxLength: 0
-          minLength: 2500
-          description: 'De beschrijving van het doel van deze pagina (voor intern gebruik)'
-        inhoud:
-          type: string
-          example: 'Het is erg belangrijk dat u'
-          maxLength: 0
-          minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van deze pagina'
         metaDescription:
           type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
+          example: 'Dit is een belangrijke Pagina die uitleg geeft over van alles en nog wat.'
           maxLength: 0
           minLength: 255
-          description: 'De beschrijving van het doel van deze pagina voor zoekmachines'
+          description: 'De beschrijving van het doel van deze Pagina voor zoekmachines,'
         metaKeywords:
           type: string
           example: 'gemeente, pagina, burgers'
           maxLength: 0
           minLength: 255
-          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een pagina gebruikt.'
+          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een Pagina gebruikt.'
         metaRobots:
           type: string
           example: 'INDEX, FOLLOW'
           maxLength: 0
           minLength: 255
-          description: 'Hoe ver mogen zoekrobots je site doorzoeken en spideren?'
+          description: 'Hoe ver mogen zoekbots je site doorzoeken en spideren?'
         metaRevisitAfter:
           type: string
           example: '7 days'
@@ -2201,37 +2429,37 @@ components:
           example: 'John Do'
           maxLength: 0
           minLength: 255
-          description: 'De auteur van de text, mag ook een organisatie zijn'
+          description: 'De auteur van de text. Dit mag ook een organisatie zijn.'
         metaCopyright:
           type: string
           example: 'https://opensource.org/licenses/MIT'
           maxLength: 0
           minLength: 255
-          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers of intellectual property'
+          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers van intelectueel eigendom.'
         metaContact:
           type: string
           example: emailadres@domeinnaam.nl
           maxLength: 0
           minLength: 255
-          description: 'De meta contact name was in gebruik voor het vermelden van een contact email adres.'
+          description: 'De meta contact naam is in gebruik voor het vermelden van een contact emailadres.'
         metaOriginalSource:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Als een pagina ter verduidelijking van een andere pagina dient, kan deze andere pagina hiermee worden aangehaald'
+          description: 'Als een Pagina ter verduidelijking van een andere Pagina dient, kan de hier mee naar de andere pagina worden verwezen.'
         metaCanonical:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moet worden gebruikt'
+          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moeten gebruiken.'
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop dit Pagina object is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Pagina object voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -2241,92 +2469,52 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor deze Pagina.'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Pagina object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
         variabelen:
           title: variabelen
           type: array
           example: '[]'
           format: array
+          description: 'Variabelen die worden gebruikt in het criëeren van een weergaven voor deze Pagina.'
         logboek:
           title: logboek
           type: array
           example: '[]'
           format: array
-          description: 'Een overzicht van alle op deze pagina uitgevoerde wijzigingen'
+          description: 'Een overzicht van alle op deze Pagina uitgevoerde wijzigingen.'
         url:
           readOnly: true
-      required:
-        - naam
-        - titel
-        - inhoud
     'Pagina-pagina:lezen':
       type: object
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van deze pagina. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
-        identificatie:
-          type: string
-          example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
-          maxLength: 40
-        bronOrganisatie:
-          title: bronOrganisatie
-          type: string
-          example: '123456789'
-          required: 'true'
-          maxLength: 9
-          minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
-        naam:
-          type: string
-          example: 'Start pagina van belangrijk procces'
-          maxLength: 0
-          minLength: 255
-          description: 'De naam van de pagina (voor intern gebruik)'
-        titel:
-          type: string
-          example: 'Welkom bij het procces!'
-          maxLength: 0
-          minLength: 255
-          description: 'De titel van de pagina (voor extern gebruik)'
         slug:
-          description: 'De locaties (of url deel) waarop deze pagina wordt terug gevonden'
+          description: 'De locaties (of url) waarop deze pagina wordt terug gevonden.'
           type: string
-        beschrijving:
-          type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
-          maxLength: 0
-          minLength: 2500
-          description: 'De beschrijving van het doel van deze pagina (voor intern gebruik)'
-        inhoud:
-          type: string
-          example: 'Het is erg belangrijk dat u'
-          maxLength: 0
-          minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van deze pagina'
         metaDescription:
           type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
+          example: 'Dit is een belangrijke Pagina die uitleg geeft over van alles en nog wat.'
           maxLength: 0
           minLength: 255
-          description: 'De beschrijving van het doel van deze pagina voor zoekmachines'
+          description: 'De beschrijving van het doel van deze Pagina voor zoekmachines,'
         metaKeywords:
           type: string
           example: 'gemeente, pagina, burgers'
           maxLength: 0
           minLength: 255
-          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een pagina gebruikt.'
+          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een Pagina gebruikt.'
         metaRobots:
           type: string
           example: 'INDEX, FOLLOW'
           maxLength: 0
           minLength: 255
-          description: 'Hoe ver mogen zoekrobots je site doorzoeken en spideren?'
+          description: 'Hoe ver mogen zoekbots je site doorzoeken en spideren?'
         metaRevisitAfter:
           type: string
           example: '7 days'
@@ -2338,37 +2526,37 @@ components:
           example: 'John Do'
           maxLength: 0
           minLength: 255
-          description: 'De auteur van de text, mag ook een organisatie zijn'
+          description: 'De auteur van de text. Dit mag ook een organisatie zijn.'
         metaCopyright:
           type: string
           example: 'https://opensource.org/licenses/MIT'
           maxLength: 0
           minLength: 255
-          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers of intellectual property'
+          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers van intelectueel eigendom.'
         metaContact:
           type: string
           example: emailadres@domeinnaam.nl
           maxLength: 0
           minLength: 255
-          description: 'De meta contact name was in gebruik voor het vermelden van een contact email adres.'
+          description: 'De meta contact naam is in gebruik voor het vermelden van een contact emailadres.'
         metaOriginalSource:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Als een pagina ter verduidelijking van een andere pagina dient, kan deze andere pagina hiermee worden aangehaald'
+          description: 'Als een Pagina ter verduidelijking van een andere Pagina dient, kan de hier mee naar de andere pagina worden verwezen.'
         metaCanonical:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moet worden gebruikt'
+          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moeten gebruiken.'
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop dit Pagina object is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Pagina object voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -2378,64 +2566,32 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor deze Pagina.'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Pagina object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
-      required:
-        - naam
-        - titel
-        - inhoud
     'Pagina-pagina:schrijven':
       type: object
       description: Document
-      required:
-        - naam
-        - titel
-        - inhoud
       properties:
-        naam:
-          type: string
-          example: 'Start pagina van belangrijk procces'
-          maxLength: 0
-          minLength: 255
-          description: 'De naam van de pagina (voor intern gebruik)'
-        titel:
-          type: string
-          example: 'Welkom bij het procces!'
-          maxLength: 0
-          minLength: 255
-          description: 'De titel van de pagina (voor extern gebruik)'
-        beschrijving:
-          type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
-          maxLength: 0
-          minLength: 2500
-          description: 'De beschrijving van het doel van deze pagina (voor intern gebruik)'
-        inhoud:
-          type: string
-          example: 'Het is erg belangrijk dat u'
-          maxLength: 0
-          minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van deze pagina'
         metaDescription:
           type: string
-          example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
+          example: 'Dit is een belangrijke Pagina die uitleg geeft over van alles en nog wat.'
           maxLength: 0
           minLength: 255
-          description: 'De beschrijving van het doel van deze pagina voor zoekmachines'
+          description: 'De beschrijving van het doel van deze Pagina voor zoekmachines,'
         metaKeywords:
           type: string
           example: 'gemeente, pagina, burgers'
           maxLength: 0
           minLength: 255
-          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een pagina gebruikt.'
+          description: 'Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een Pagina gebruikt.'
         metaRobots:
           type: string
           example: 'INDEX, FOLLOW'
           maxLength: 0
           minLength: 255
-          description: 'Hoe ver mogen zoekrobots je site doorzoeken en spideren?'
+          description: 'Hoe ver mogen zoekbots je site doorzoeken en spideren?'
         metaRevisitAfter:
           type: string
           example: '7 days'
@@ -2447,31 +2603,31 @@ components:
           example: 'John Do'
           maxLength: 0
           minLength: 255
-          description: 'De auteur van de text, mag ook een organisatie zijn'
+          description: 'De auteur van de text. Dit mag ook een organisatie zijn.'
         metaCopyright:
           type: string
           example: 'https://opensource.org/licenses/MIT'
           maxLength: 0
           minLength: 255
-          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers of intellectual property'
+          description: 'De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers van intelectueel eigendom.'
         metaContact:
           type: string
           example: emailadres@domeinnaam.nl
           maxLength: 0
           minLength: 255
-          description: 'De meta contact name was in gebruik voor het vermelden van een contact email adres.'
+          description: 'De meta contact naam is in gebruik voor het vermelden van een contact emailadres.'
         metaOriginalSource:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Als een pagina ter verduidelijking van een andere pagina dient, kan deze andere pagina hiermee worden aangehaald'
+          description: 'Als een Pagina ter verduidelijking van een andere Pagina dient, kan de hier mee naar de andere pagina worden verwezen.'
         metaCanonical:
           type: string
           example: 'http://www.mijngemeente.nl'
           maxLength: 0
           minLength: 255
-          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moet worden gebruikt'
+          description: 'Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moeten gebruiken.'
     'Pagina-sjabloon:lezen':
       type: object
       description: Document
@@ -2480,12 +2636,12 @@ components:
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van dit Sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit Sjabloon binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -2494,37 +2650,45 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe dit Sjabloon behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+        type:
+          type: string
+          enum:
+            - bericht
+            - pagina
+          example: simple
+          required: 'true'
+          description: 'Het soort sjabloon.'
         naam:
           type: string
           example: 'Start pagina van belangrijk procces'
           maxLength: 0
           minLength: 255
-          description: 'De naam van dit sjabloon (voor intern gebruik)'
+          description: 'De naam van dit Sjabloon (voor intern gebruik).'
         titel:
           type: string
           example: 'Welkom bij het procces!'
           maxLength: 0
           minLength: 255
-          description: 'De titel van dit sjabloon (voor extern gebruik)'
+          description: 'De titel van dit Sjabloon (voor extern gebruik).'
         beschrijving:
           type: string
           example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
           maxLength: 0
           minLength: 2500
-          description: 'De beschrijving van het doel van dit sjabloon (voor intern gebruik)'
+          description: 'De beschrijving van het doel van dit Sjabloon (voor intern gebruik).'
         inhoud:
           type: string
           example: 'Het is erg belangrijk dat u'
           maxLength: 0
           minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van dit sjabloon'
+          description: 'De daadwerlijke (twig) inhoud van dit Sjabloon.'
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop dit Sjabloon object is aangemaakt'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Sjabloon object voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -2534,24 +2698,26 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor dit Sjabloon.'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Sjabloon, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
         variabelen:
           title: variabelen
           type: array
           example: '[]'
           format: array
+          description: 'Variabelen die worden gebruikt in het crieëren van een weergaven voor dit Sjabloon.'
         logboek:
           title: logboek
           type: array
           example: '[]'
           format: array
-          description: 'Een overzicht van alle op dit sjabloon uitgevoerde wijzigingen'
+          description: 'Een overzicht van alle op dit Sjabloon uitgevoerde wijzigingen.'
         url:
           readOnly: true
       required:
+        - type
         - naam
         - titel
         - inhoud
@@ -2560,12 +2726,12 @@ components:
       description: Document
       properties:
         id:
-          description: 'Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'Het identificatie nummer van dit Sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit Sjabloon binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -2574,37 +2740,37 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe dit Sjabloon behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
         naam:
           type: string
           example: 'Start pagina van belangrijk procces'
           maxLength: 0
           minLength: 255
-          description: 'De naam van dit sjabloon (voor intern gebruik)'
+          description: 'De naam van dit Sjabloon (voor intern gebruik).'
         titel:
           type: string
           example: 'Welkom bij het procces!'
           maxLength: 0
           minLength: 255
-          description: 'De titel van dit sjabloon (voor extern gebruik)'
+          description: 'De titel van dit Sjabloon (voor extern gebruik).'
         beschrijving:
           type: string
           example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
           maxLength: 0
           minLength: 2500
-          description: 'De beschrijving van het doel van dit sjabloon (voor intern gebruik)'
+          description: 'De beschrijving van het doel van dit Sjabloon (voor intern gebruik).'
         inhoud:
           type: string
           example: 'Het is erg belangrijk dat u'
           maxLength: 0
           minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van dit sjabloon'
+          description: 'De daadwerlijke (twig) inhoud van dit Sjabloon.'
         registratiedatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object is aangemaakt'
+          description: 'Het tijdstip waarop dit Sjabloon object is aangemaakt'
           type: string
           format: date-time
         wijzigingsdatum:
-          description: 'Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.'
+          description: 'Het tijdstip waarop dit Sjabloon object voor het laatst is gewijzigd.'
           type: string
           format: date-time
         contactPersoon:
@@ -2614,9 +2780,9 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor dit Sjabloon.'
         eigenaar:
-          description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
+          description: 'Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Sjabloon, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
       required:
         - naam
@@ -2629,32 +2795,32 @@ components:
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit Sjabloon binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         naam:
           type: string
           example: 'Start pagina van belangrijk procces'
           maxLength: 0
           minLength: 255
-          description: 'De naam van dit sjabloon (voor intern gebruik)'
+          description: 'De naam van dit Sjabloon (voor intern gebruik).'
         titel:
           type: string
           example: 'Welkom bij het procces!'
           maxLength: 0
           minLength: 255
-          description: 'De titel van dit sjabloon (voor extern gebruik)'
+          description: 'De titel van dit Sjabloon (voor extern gebruik).'
         beschrijving:
           type: string
           example: 'Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat'
           maxLength: 0
           minLength: 2500
-          description: 'De beschrijving van het doel van dit sjabloon (voor intern gebruik)'
+          description: 'De beschrijving van het doel van dit Sjabloon (voor intern gebruik).'
         inhoud:
           type: string
           example: 'Het is erg belangrijk dat u'
           maxLength: 0
           minLength: 2500
-          description: 'De daadwerlijke (twig) inhoud van dit sjabloon'
+          description: 'De daadwerlijke (twig) inhoud van dit Sjabloon.'
         contactPersoon:
           title: Contactpersoon
           type: url
@@ -2662,7 +2828,7 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor dit document'
+          description: 'De contactpersoon voor dit Sjabloon.'
       required:
         - naam
         - titel
@@ -2683,19 +2849,19 @@ externalDocs:
 tags:
   -
     name: Afbeelding
-    description: 'Een document zijnde een afbeelding'
+    description: 'Een afbeelding bestand'
   -
-    name: Document
-    description: 'Een document zijnde een bestande'
+    name: 'Informatie object'
+    description: 'Een Informatie object bestand'
   -
     name: Film
-    description: 'Een document zijnde een film'
+    description: 'Een film bestand'
   -
     name: Pagina
     description: 'Een webpagina te genereren aan de hand van variabelen'
   -
     name: Sjabloon
-    description: 'Een sjabloon voor het genereren van documenten of berichten aan de hand van variabelen'
+    description: 'Een sjabloon voor het genereren van bestanden of berichten aan de hand van variabelen'
   -
     name: Applicatie
     description: 'Een software applicatie binnen een organisatie die gebruik maakt van een component voor het creëren, ophalen, bijwerken of verwijderen van gegevens. Applicaties kunnen worden geregistreerd om namens een organisatie te handelen op een component. In deze zin zijn applicaties dan ook onderdeel van het beheerproces, infrastructuur en configuratie van een component in plaats van het datamodel dat door het component wordt geleverd.'
