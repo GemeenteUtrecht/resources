@@ -37,15 +37,15 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
  *      	"path"="/berichten",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van documenten op"
- *  		}
+ * 				"summary" = "Haalt een verzameling van Bericht sjablonen op."
+ *  		} 
  *  	},
  *  	"post"={
  *  		"normalizationContext"={"groups"={"pagina:lezen"}},
  *  		"denormalizationContext"={"groups"={"pagina:maken"}},
  *      	"path"="/berichten",
  *  		"openapi_context" = {
- * 					"summary" = "Maak een document aan"
+ * 					"summary" = "Maak een Bericht sjabloon aan."
  *  		}
  *  	}
  *  },
@@ -55,7 +55,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
  *      	"path"="/berichten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifiek document op"
+ * 				"summary" = "Haal een specifiek Bericht sjabloon op."
  *  		}
  *  	},
  *     "put"={
@@ -63,7 +63,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/berichten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifiek document"
+ * 				"summary" = "Vervang een specifiek Bericht sjabloon."
  *  		}
  *  	},
  *     "delete"={
@@ -71,7 +71,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/berichten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifiek document"
+ * 				"summary" = "Verwijder een specifiek Bericht sjabloon."
  *  		}
  *  	},
  *     "log"={
@@ -82,7 +82,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"pagina:lezen"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit Bericht sjabloon.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -97,7 +97,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"pagina:weergeven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Render",
- *         		"description" = "Vervang ingestelde variabelen in de pagina door meeggen array",
+ *         		"description" = "Vervang ingestelde variabelen in het Bericht sjabloon mee gegeven array in een.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -111,8 +111,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"normalization_context"={"groups"={"pagina:lezen"}},
  *     		"denormalization_context"={"groups"={"pagina:schrijven"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie terugdraaid",
- *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
+ *         		"summary" = "Versie herstellen",
+ *         		"description" = "Herstel een eerdere versie van dit Bericht sjabloon. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -122,13 +122,13 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *            	},
  *             	"responses" = {
  *         			"202" = {
- *         				"description" = "Terug gedraaid naar eerdere versie"
+ *         				"description" = "Herstel naar eerdere versie"
  *         			},	
  *         			"400" = {
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Document niet gevonden"
+ *         				"description" = "Bericht sjabloon niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -142,7 +142,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Bericht implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatie nummer van dit Bericht sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *

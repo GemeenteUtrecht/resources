@@ -82,7 +82,7 @@ parameters:
                 
                 Let er bij het meegeven van JWT tokens op dat deze moet worden voorafgegaan door een Bearer en een spatie, onder de header Authorization. De volledig naam wordt daarmee: 'Authorization: Bearer [TOKEN]'.
 
-            version: 0.0.1
+            version: 0.0.21 Alpha
             title: 'Resources API'
             termsOfService: 'http://www.zaakonline.nl/terms/'
             contact:
@@ -101,15 +101,15 @@ parameters:
         tags:
               # The general endpoints  
             - name: Afbeelding
-              description: "Een document zijnde een afbeelding"
-            - name: Document
-              description: "Een document zijnde een bestande"
+              description: "Een afbeelding bestand"
+            - name: Informatie object
+              description: "Een Informatie object bestand"
             - name: Film
-              description: "Een document zijnde een film"
+              description: "Een film bestand"
             - name: Pagina
               description: "Een webpagina te genereren aan de hand van variabelen"
             - name: Sjabloon
-              description: "Een sjabloon voor het genereren van documenten of berichten aan de hand van variabelen"
+              description: "Een sjabloon voor het genereren van bestanden of berichten aan de hand van variabelen"
             - name: Applicatie
               description: "Een software applicatie binnen een organisatie die gebruik maakt van een component voor het creëren, ophalen, bijwerken of verwijderen van gegevens. Applicaties kunnen worden geregistreerd om namens een organisatie te handelen op een component. In deze zin zijn applicaties dan ook onderdeel van het beheerproces, infrastructuur en configuratie van een component in plaats van het datamodel dat door het component wordt geleverd."  
               # Grouping the endpoint  

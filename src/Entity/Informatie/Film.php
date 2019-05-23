@@ -37,7 +37,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"film:schrijven"}},
  *      	"path"="/films",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van documenten op"
+ * 				"summary" = "Haalt een verzameling van Films op."
  *  		}
  *  	},
  *  	"post"={
@@ -45,7 +45,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"film:maken"}},
  *      	"path"="/films",
  *  		"openapi_context" = {
- * 					"summary" = "Maak een document aan"
+ * 					"summary" = "Maak een Film aan."
  *  		}
  *  	}
  *  },
@@ -55,7 +55,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"film:schrijven"}},
  *      	"path"="/films/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifiek document op"
+ * 				"summary" = "Haal een specifieke Film op."
  *  		}
  *  	},
  *     "put"={
@@ -63,7 +63,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"film:schrijven"}},
  *      	"path"="/films/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifiek document"
+ * 				"summary" = "Vervang een specifieke Film."
  *  		}
  *  	},
  *     "delete"={
@@ -71,7 +71,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"film:verwijderen"}},
  *      	"path"="/films/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifiek document"
+ * 				"summary" = "Verwijder een specifieke Film."
  *  		}
  *  	},
  *     "log"={
@@ -82,7 +82,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"film:lezen"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van deze object",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -96,7 +96,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"normalization_context"={"groups"={"film:lezen"}},
  *     		"denormalization_context"={"groups"={"film:schrijven"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie terugdraaid",
+ *         		"summary" = "Versie herstellen",
  *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
@@ -113,7 +113,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Document niet gevonden"
+ *         				"description" = "Film niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -127,7 +127,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Film implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatie nummer van deze Film <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -140,7 +140,7 @@ class Film implements StringableInterface
 	public $id;
 	
 	/**
-	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * De unieke identificatie van deze Film binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -158,7 +158,7 @@ class Film implements StringableInterface
 	 *         "openapi_context"={
 	 *             "type"="string",
 	 *             "example"="6a36c2c4-213e-4348-a467-dfa3a30f64aa",
-	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreeerd.",
+	 *             "description"="De unieke identificatie van de organisatie die deze Film heeft gecreëerd.",
 	 *             "maxLength"=40
 	 *         }
 	 *     }
@@ -168,7 +168,7 @@ class Film implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
+	 * Het RSIN van de organisatie waartoe deze Film behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -178,8 +178,8 @@ class Film implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 8,
 	 *      max = 9,
-	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
+	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn.",
+	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn."
 	 * )
 	 * @Groups({"read"})
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
@@ -200,7 +200,7 @@ class Film implements StringableInterface
 	public $bronOrganisatie;	
 	
 	/**
-	 * @var string The original name of this file.
+	 * @var string De naam van deze Film.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -209,7 +209,7 @@ class Film implements StringableInterface
 	public $naam;
 	
 	/**
-	 * @var string The original name of this file.
+	 * @var string De orgiginele naam van deze Film.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -218,7 +218,7 @@ class Film implements StringableInterface
 	public $orgineleNaam;
 	
 	/**
-	 * @var string The extention of this file in bytes, where 1024 reprecent 1KB and 1048576 1MB
+	 * @var string De grote van deze Film in bytes, waar 1024 bytes overeenkomen met 1KB en 1048576 bytes met 1MB
 	 *
 	 * @ORM\Column(
 	 * 		type="integer", 		
@@ -238,7 +238,7 @@ class Film implements StringableInterface
 	public $size;
 	
 	/**
-	 * @var string The extention of this file.
+	 * @var string De extensie van deze Film.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -254,6 +254,7 @@ class Film implements StringableInterface
 	 * @Groups({"read"})
 	 */
 	public $extention;
+	/* @todo ruben het moet extension zijn */
 	
 	/**
 	 * @var string The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.
@@ -276,7 +277,7 @@ class Film implements StringableInterface
 	public $mimeType;
 	
 	/**
-	 * @var string The location of this file.
+	 * @var string De locatie van deze Film (url).
 	 *
 	 * @ORM\Column(
 	 * 		nullable=true
@@ -296,7 +297,7 @@ class Film implements StringableInterface
 	public $base64;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
+	 * Het tijdstip waarop dit Film object is aangemaakt
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -309,7 +310,7 @@ class Film implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop dit Film object voor het laatst is gewijzigd.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -323,7 +324,7 @@ class Film implements StringableInterface
 	public $wijzigingsdatum;
 	
 	/**
-	 * Het contact persoon voor dit document
+	 * De contactpersoon voor dit document
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -347,7 +348,7 @@ class Film implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Film object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *
@@ -365,7 +366,7 @@ class Film implements StringableInterface
 	}
 	
 	/**
-	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
+	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
 	{
@@ -373,7 +374,7 @@ class Film implements StringableInterface
 	}
 	
 	/**
-	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values
+	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values.
 	 *
 	 * @ORM\PrePersist
 	 */

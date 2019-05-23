@@ -37,7 +37,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
  *      	"path"="/paginas",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van documenten op"
+ * 				"summary" = "Haalt een verzameling van Pagina's op."
  *  		}
  *  	},
  *  	"post"={
@@ -45,7 +45,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"pagina:maken"}},
  *      	"path"="/paginas",
  *  		"openapi_context" = {
- * 					"summary" = "Maak een document aan"
+ * 					"summary" = "Maak een Pagina aan."
  *  		}
  *  	}
  *  },
@@ -55,7 +55,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
  *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifiek document op"
+ * 				"summary" = "Haal een specifieke Pagina op."
  *  		}
  *  	},
  *     "put"={
@@ -63,7 +63,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifiek document"
+ * 				"summary" = "Vervang een specifieke Pagina."
  *  		}
  *  	},
  *     "delete"={
@@ -71,7 +71,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/paginas/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifiek document"
+ * 				"summary" = "Verwijder een specifieke Pagina."
  *  		}
  *  	},
  *     "log"={
@@ -82,7 +82,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"pagina:lezen"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit Pagina object.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -97,7 +97,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"pagina:weergeven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Render",
- *         		"description" = "Vervang ingestelde variabelen in de pagina door meeggen array",
+ *         		"description" = "Vervang ingestelde variabelen in de Pagina door mee gegeven array.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -111,8 +111,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"normalization_context"={"groups"={"pagina:lezen"}},
  *     		"denormalization_context"={"groups"={"pagina:schrijven"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie terugdraaid",
- *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
+ *         		"summary" = "Versie herstellen",
+ *         		"description" = "Herstel een eerdere versie van dit Pagina object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -128,7 +128,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Document niet gevonden"
+ *         				"description" = "Pagina niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -142,7 +142,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Pagina implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatie nummer van deze pagina. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -155,7 +155,7 @@ class Pagina implements StringableInterface
 	public $id;
 	
 	/**
-	 * @var string De locaties (of url deel) waarop deze pagina wordt terug gevonden
+	 * @var string De locaties (of url) waarop deze pagina wordt terug gevonden.
 	 *	 
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -169,7 +169,7 @@ class Pagina implements StringableInterface
 	public $slug;	
 	
 	/**
-	 * @var string De beschrijving van het doel van deze pagina voor zoekmachines
+	 * @var string De beschrijving van het doel van deze Pagina voor zoekmachines,
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -181,13 +181,13 @@ class Pagina implements StringableInterface
 	 *      min = 0,
 	 *      max = 255,
 	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 *      maxMessage = "De beschrijving mag maximaal  {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
 	 *             "type"="string",
-	 *             "example"="Dit is een belangrijke pagina die uitleg geeft over van alles en nog wat",
+	 *             "example"="Dit is een belangrijke Pagina die uitleg geeft over van alles en nog wat.",
 	 *             "maxLength"=0,
 	 *             "minLength"=255
 	 *         }
@@ -197,7 +197,7 @@ class Pagina implements StringableInterface
 	public $metaDescription;
 	
 	/**
-	 * @var string Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een pagina gebruikt.
+	 * @var string Een samenvatting van de belangrijkste tref- of zoekwoorden die je op een Pagina gebruikt.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -208,8 +208,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De keywords moeten tesamen tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De keywords mogen tesamen  {{ limit }} tekens bevatten"
+	 *      minMessage = "De keywords moeten minimaal {{ limit }} tekens bevatten",
+	 *      maxMessage = "De keywords mogen maximaal  {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -225,7 +225,7 @@ class Pagina implements StringableInterface
 	public $metaKeywords;
 	
 	/**
-	 * @var string Hoe ver mogen zoekrobots je site doorzoeken en spideren?
+	 * @var string Hoe ver mogen zoekbots je site doorzoeken en spideren?
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -236,8 +236,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De robots moet tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De robots kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De bot moet minimaal {{ limit }} tekens bevatten",
+	 *      maxMessage = "De bot kan maximaal {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -264,7 +264,7 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De revisist afther moet tenminste {{ limit }} tekens bevatten",
+	 *      minMessage = "De revisist afther moet minimaal {{ limit }} tekens bevatten",
 	 *      maxMessage = "De revisist afther kan maximaal {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
@@ -281,7 +281,7 @@ class Pagina implements StringableInterface
 	public $metaRevisitAfter;
 	
 	/**
-	 * @var string De auteur van de text, mag ook een organisatie zijn
+	 * @var string De auteur van de text. Dit mag ook een organisatie zijn.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -309,8 +309,8 @@ class Pagina implements StringableInterface
 	public $metaAuthor;
 	
 	/**
-	 * @var string De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers of intellectual property
-	 *
+	 * @var string De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers van intelectueel eigendom.
+	 * 
 	 * @ORM\Column(
 	 *     type     = "string",
 	 *     length   = 255,
@@ -320,7 +320,7 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De copyright verwijzing moet tenminste {{ limit }} tekens bevatten",
+	 *      minMessage = "De copyright verwijzing moet minimaal {{ limit }} tekens bevatten",
 	 *      maxMessage = "De copyright verwijzing kan maximaal {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
@@ -337,7 +337,7 @@ class Pagina implements StringableInterface
 	public $metaCopyright;
 	
 	/**
-	 * @var string De meta contact name was in gebruik voor het vermelden van een contact email adres. 
+	 * @var string De meta contact naam is in gebruik voor het vermelden van een contact emailadres. 
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -348,7 +348,7 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De contact verwijzing moet tenminste {{ limit }} tekens bevatten",
+	 *      minMessage = "De contact verwijzing moet minimaal {{ limit }} tekens bevatten",
 	 *      maxMessage = "De contact verwijzing kan maximaal {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
@@ -365,7 +365,7 @@ class Pagina implements StringableInterface
 	public $metaContact;
 	
 	/**
-	 * @var string Als een pagina ter verduidelijking van een andere pagina dient, kan deze andere pagina hiermee worden aangehaald
+	 * @var string Als een Pagina ter verduidelijking van een andere Pagina dient, kan de hier mee naar de andere pagina worden verwezen.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -376,8 +376,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De oorspronkelijke bron moet tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De oorspronkelijke bron verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De oorspronkelijke bron verwijzing moet minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De oorspronkelijke bron verwijzing kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -394,7 +394,7 @@ class Pagina implements StringableInterface
 		
 	
 	/**
-	 * @var string Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moet worden gebruikt
+	 * @var string Geeft bij het herhalen van tekst op meerdere paginas aan welke pagina de zoekmachines moeten gebruiken.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -405,8 +405,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De conical moet tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De conical verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De conical verwijzing moet minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De conical verwijzing kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -423,7 +423,7 @@ class Pagina implements StringableInterface
 	
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
+	 * Het tijdstip waarop dit Pagina object is aangemaakt.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -436,7 +436,7 @@ class Pagina implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop dit Pagina object voor het laatst is gewijzigd.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -450,7 +450,7 @@ class Pagina implements StringableInterface
 	public $wijzigingsdatum;
 	
 	/**
-	 * Het contact persoon voor dit document
+	 * De contactpersoon voor deze Pagina.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -474,7 +474,7 @@ class Pagina implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Pagina object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *
@@ -490,7 +490,7 @@ class Pagina implements StringableInterface
 	 */
 	
 	/**
-	 * Variabelen die worden gebruikt in het criëren van een weergaven voor deze pagina
+	 * Variabelen die worden gebruikt in het criÃ«eren van een weergaven voor deze Pagina.
 	 *
 	 * @Groups({"pagina:weergeven"})
 	 * @ApiProperty(
@@ -508,7 +508,7 @@ class Pagina implements StringableInterface
 	public $variabelen;
 	
 	/**
-	 * Een overzicht van alle op deze pagina uitgevoerde wijzigingen
+	 * Een overzicht van alle op deze Pagina uitgevoerde wijzigingen.
  	 *
 	 * @Groups({"pagina:logboek"})
 	 * @ApiProperty(

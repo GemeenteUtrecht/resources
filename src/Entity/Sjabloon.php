@@ -37,7 +37,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"sjabloon:lezen"}},
  *      	"path"="/sjablonen",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van documenten op"
+ * 				"summary" = "Haalt een verzameling van Sjablonen op."
  *  		}
  *  	},
  *  	"post"={
@@ -45,7 +45,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"sjabloon:maken"}},
  *      	"path"="/sjablonen",
  *  		"openapi_context" = {
- * 					"summary" = "Maak een document aan"
+ * 					"summary" = "Maak een Sjabloon aan."
  *  		}
  *  	}
  *  },
@@ -55,7 +55,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"sjabloon:lezen"}},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifiek document op"
+ * 				"summary" = "Haal een specifiek Sjabloon op."
  *  		}
  *  	},
  *     "put"={
@@ -63,7 +63,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"sjabloon:schrijven"}},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifiek document"
+ * 				"summary" = "Vervang een specifiek Sjabloon."
  *  		}
  *  	},
  *     "delete"={
@@ -71,7 +71,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"sjabloon:verwijderen"}},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifiek document"
+ * 				"summary" = "Verwijder een specifiek Sjabloon."
  *  		}
  *  	},
  *     "log"={
@@ -82,7 +82,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"sjabloon:schrijven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit Sjabloon.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -97,7 +97,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"sjabloon:weergeven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Render",
- *         		"description" = "Vervang ingestelde variabelen in het sjabloon door meeggen array",
+ *         		"description" = "Vervang ingestelde variabelen in het sjabloon door mee gegeven array.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -111,8 +111,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
  *     		"denormalization_context"={"groups"={"sjabloon:schrijven"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie terugdraaid",
- *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
+ *         		"summary" = "Versie herstellen",
+ *         		"description" = "Herstel een eerdere versie van dit Sjabloon. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -122,13 +122,13 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *            	},
  *             	"responses" = {
  *         			"202" = {
- *         				"description" = "Terug gedraaid naar eerdere versie"
+ *         				"description" = "Hersteld naar eerdere versie"
  *         			},	
  *         			"400" = {
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Document niet gevonden"
+ *         				"description" = "Sjabloon niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -142,7 +142,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Sjabloon implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit Document <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatie nummer van dit Sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -155,7 +155,7 @@ class Sjabloon implements StringableInterface
 	public $id;
 	
 	/**
-	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * De unieke identificatie van dit Sjabloon binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -173,7 +173,7 @@ class Sjabloon implements StringableInterface
 	 *         "openapi_context"={
 	 *             "type"="string",
 	 *             "example"="6a36c2c4-213e-4348-a467-dfa3a30f64aa",
-	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreeerd.",
+	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreëerd.",
 	 *             "maxLength"=40
 	 *         }
 	 *     }
@@ -183,7 +183,7 @@ class Sjabloon implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe deze document behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
+	 * Het RSIN van de organisatie waartoe dit Sjabloon behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -193,7 +193,7 @@ class Sjabloon implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 8,
 	 *      max = 9,
-	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
+	 *      minMessage = "Het RSIN moet minimaal {{ limit }} karakters lang zijn",
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
 	 * @Groups({"sjabloon:lezen"})
@@ -214,7 +214,7 @@ class Sjabloon implements StringableInterface
 	 */
 	public $bronOrganisatie;	
 	/**
-	 * @var string Het soort sjabloon
+	 * @var string Het soort sjabloon.
 	 *
 	 * @ORM\Column
 	 * @ApiProperty(
@@ -239,7 +239,7 @@ class Sjabloon implements StringableInterface
 	public $type;
 	
 	/**
-	 * @var string De naam van dit sjabloon (voor intern gebruik)
+	 * @var string De naam van dit Sjabloon (voor intern gebruik).
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -250,8 +250,8 @@ class Sjabloon implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 *      minMessage = "De titel moeten minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -269,7 +269,7 @@ class Sjabloon implements StringableInterface
 	public $naam;
 	
 	/**
-	 * @var string De titel van dit sjabloon (voor extern gebruik)
+	 * @var string De titel van dit Sjabloon (voor extern gebruik).
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -280,8 +280,8 @@ class Sjabloon implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De titel moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten"
+	 *      minMessage = "De titel moeten minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De titel mag maximaal  {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -299,7 +299,7 @@ class Sjabloon implements StringableInterface
 	public $titel;	
 	
 	/**
-	 * @var string De beschrijving van het doel van dit sjabloon (voor intern gebruik)
+	 * @var string De beschrijving van het doel van dit Sjabloon (voor intern gebruik).
 	 *	 
 	 * @ORM\Column(
 	 *     type     = "text",
@@ -309,8 +309,8 @@ class Sjabloon implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De beschrijving moag maximaal  {{ limit }} tekens bevatten"
+	 *      minMessage = "De beschrijving moeten minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De beschrijving mag maximaal  {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -327,7 +327,7 @@ class Sjabloon implements StringableInterface
 	public $beschrijving;
 	
 	/**
-	 * @var string De daadwerlijke (twig) inhoud van dit sjabloon
+	 * @var string De daadwerlijke (twig) inhoud van dit Sjabloon.
 	 *	 
 	 * @ORM\Column(
 	 *     type     = "text"
@@ -337,7 +337,7 @@ class Sjabloon implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 2500,
-	 *      minMessage = "De inhoud moeten tenminste {{ limit }} tekens bevatten",
+	 *      minMessage = "De inhoud moeten minimaal {{ limit }} tekens bevatten",
 	 *      maxMessage = "De inhoud mag maximaal  {{ limit }} tekens bevatten"
 	 * )
 	 * @ApiProperty(
@@ -355,7 +355,7 @@ class Sjabloon implements StringableInterface
 	public $inhoud;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
+	 * Het tijdstip waarop dit Sjabloon object is aangemaakt
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -368,7 +368,7 @@ class Sjabloon implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop dit Sjabloon object voor het laatst is gewijzigd.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -382,7 +382,7 @@ class Sjabloon implements StringableInterface
 	public $wijzigingsdatum;
 	
 	/**
-	 * Het contact persoon voor dit document
+	 * De contactpersoon voor dit Sjabloon.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -406,7 +406,7 @@ class Sjabloon implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Sjabloon, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *
@@ -422,7 +422,7 @@ class Sjabloon implements StringableInterface
 	 */
 	
 	/**
-	 * Variabelen die worden gebruikt in het cri�ren van een weergaven voor dit sjabloon
+	 * Variabelen die worden gebruikt in het crieëren van een weergaven voor dit Sjabloon.
 	 *
 	 * @Groups({"sjabloon:weergeven"})
 	 * @ApiProperty(
@@ -440,7 +440,7 @@ class Sjabloon implements StringableInterface
 	public $variabelen;
 	
 	/**
-	 * Een overzicht van alle op dit sjabloon uitgevoerde wijzigingen
+	 * Een overzicht van alle op dit Sjabloon uitgevoerde wijzigingen.
 	 *
 	 * @Groups({"sjabloon:logboek"})
 	 * @ApiProperty(
