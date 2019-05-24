@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   description: |
     # Welkom innovator!
-    Fijn dat je de tijd en moeite hebt genomen om je te verdiepen in dit component. Het "Resources" component is ontwikkeld voor de gemeente Utrecht en heeft als doel het gebruik van multimedia bestanden te faciliteren. Het stelt je in staat om multimedia bestanden (waaronder plaatjes en filmpjes) en documenten, te gebruiken met bijvoorbeeld componenten, websites of andere apps.
+    Fijn dat je de tijd en moeite hebt genomen om je te verdiepen in dit component. Het "Resources" component is ontwikkeld voor de gemeente Utrecht en heeft als doel het gebruik van multimedia bestanden te faciliteren. Het stelt je in staat om multimedia bestanden (waaronder plaatjes en filmpjes) en documenten, te gebruiken met bijvoorbeeld componenten, websites of andere apps. Ook stelt dit component je instaat om gebruik te maken van sjablonen voor pagina's en berichten.
     
     # Ondersteuning
     Word lid van het slackkanaal [https://zaakonline.slack.com](https://zaakonline.slack.com) voor ondersteuning door het ontwikkel team. En krijg regelmatig updates over de ontwikkelingen op het gebied van de zaakonline componenten.
@@ -26,10 +26,10 @@ info:
     Voor het filteren op datum geldt dat er een weegmethode moet worden meegegeven. Voor deze waardes geldt dat elke door [PHP datetime](https://php.net/manual/en/datetime.construct.php) ondersteunde waarde kan worden gebruikt. Verschillende methoden kunnen worden gebruikt om een spreiding te selecteren bijvoorbeeld: */documenten?wijzigingsdatum[after]=2019-01-01&wijzigingsdatum[before]=2019-02-01*, om alle documenten gewijzigd in Januari 2019 te selecteren.
     
     De mogelijke weegmethoden voor datum vergelijking zijn:
-     - after -> Data groter en gelijk aan
-     - before -> Data kleiner en gelijk aan
-     - strictly_after -> Data groter dan
-     - strictly_before -> Data kleiner dan                                               
+     - after -> Datums groter en gelijk aan
+     - before -> Datums kleiner en gelijk aan
+     - strictly_after -> Datums groter dan
+     - strictly_before -> Datums kleiner dan                                               
     
     Daarnaast kunnen de resultaten ook worden gesorteerd, dit gaat aan de hand van de order parameter, gevolgd door desc (aflopend) of asc (oplopend). Er kunnen meerdere order parameters op volgorde van toepassing worden meegegeven (bijvoorbeeld: https://resources.demo.zaakonline.nl/documenten?order[bronOrganisatie]=desc&order[identificatie]=asc)
     
