@@ -33,16 +33,16 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
- *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={"sjabloon:lezen"}},
+ *  		"normalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/sjablonen",
  *  		"openapi_context" = {
  * 				"summary" = "Haalt een verzameling van Sjablonen op."
  *  		}
  *  	},
  *  	"post"={
- *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={"sjabloon:maken"}},
+ *  		"normalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"sjabloon:maken"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/sjablonen",
  *  		"openapi_context" = {
  * 					"summary" = "Maak een Sjabloon aan."
@@ -51,24 +51,24 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  },
  * 	itemOperations={
  *     "get"={
- *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={"sjabloon:lezen"}},
+ *  		"normalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Haal een specifiek Sjabloon op."
  *  		}
  *  	},
  *     "put"={
- *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={"sjabloon:schrijven"}},
+ *  		"normalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"sjabloon:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek Sjabloon."
  *  		}
  *  	},
  *     "delete"={
- *  		"normalizationContext"={"groups"={"sjabloon:lezen"}},
- *  		"denormalizationContext"={"groups"={"sjabloon:verwijderen"}},
+ *  		"normalizationContext"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"sjabloon:verwijderen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/sjablonen/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Verwijder een specifiek Sjabloon."
@@ -78,8 +78,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         	"method"="GET",
  *         	"path"="/sjablonen/{id}/log",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
- *     		"denormalization_context"={"groups"={"sjabloon:schrijven"}},
+ *     		"normalization_context"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *     		"denormalization_context"={"groups"={"sjabloon:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
  *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit Sjabloon.",
@@ -93,8 +93,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         	"method"="GET",
  *         	"path"="/sjablonen/{id}/render",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
- *     		"denormalization_context"={"groups"={"sjabloon:weergeven"}},
+ *     		"normalization_context"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *     		"denormalization_context"={"groups"={"sjabloon:weergeven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Render",
  *         		"description" = "Vervang ingestelde variabelen in het sjabloon door mee gegeven array.",
@@ -108,8 +108,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         	"method"="POST",
  *         	"path"="/sjablonen/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
- *     		"denormalization_context"={"groups"={"sjabloon:schrijven"}},
+ *     		"normalization_context"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *     		"denormalization_context"={"groups"={"sjabloon:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Versie herstellen",
  *         		"description" = "Herstel een eerdere versie van dit Sjabloon. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
@@ -355,6 +355,24 @@ class Sjabloon implements StringableInterface
 	public $inhoud;
 	
 	/**
+	 * Een sjabloon kan een pagina of bericht zijn
+	 * 
+     * @MaxDepth(1)
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven","sjabloon:weergeven","sjabloon:maken"})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Sjabloon\Pagina", mappedBy="sjabloon")
+	 */
+	public $pagina;
+	
+	/**
+	 * Een sjabloon kan een pagina of bericht zijn
+	 * 
+     * @MaxDepth(1)
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven","sjabloon:weergeven","sjabloon:maken"})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Sjabloon\Bericht", mappedBy="sjabloon")
+	 */
+	public $bericht;
+	
+	/**
 	 * Het tijdstip waarop dit Sjabloon object is aangemaakt
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
@@ -414,15 +432,15 @@ class Sjabloon implements StringableInterface
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
 	 * @Groups({"sjabloon:lezen"})
 	 */
-	public $eigenaar;
-		
+	public $eigenaar;	
+	
 	/*
 	 * Dan hebben we uiteraard nog een paar call specificieke properties
 	 *
 	 */
 	
 	/**
-	 * Variabelen die worden gebruikt in het crieëren van een weergaven voor dit Sjabloon.
+	 * Variabelen die worden gebruikt in het criëeren van een weergaven voor deze Pagina.
 	 *
 	 * @Groups({"sjabloon:weergeven"})
 	 * @ApiProperty(

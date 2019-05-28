@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 
 /**
- * Afbeelding
+ * Document
  * 
  * Beschrijving
  * 
@@ -33,17 +33,17 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
- *  		"normalizationContext"={"groups"={"informatie:lezen"}},
- *  		"denormalizationContext"={"groups"={"informatie:lezen"}},
- *      	"path"="/afbeeldingen",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:lezen"}},
+ *      	"path"="/documenten",
  *  		"openapi_context" = {
  * 				"summary" = "Haalt een verzameling van afbeeldingen op"
  *  		}
  *  	},
  *  	"post"={
- *  		"normalizationContext"={"groups"={"informatie:lezen"}},
- *  		"denormalizationContext"={"groups"={"informatie:maken"}},
- *      	"path"="/afbeeldingen",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:maken"}},
+ *      	"path"="/documenten",
  *  		"openapi_context" = {
  * 					"summary" = "Maak een afbeelding aan"
  *  		}
@@ -51,35 +51,35 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  },
  * 	itemOperations={
  *     "get"={
- *  		"normalizationContext"={"groups"={"informatie:lezen"}},
- *  		"denormalizationContext"={"groups"={"informatie:lezen"}},
- *      	"path"="/afbeeldingen/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:lezen"}},
+ *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Haal een specifieke afbeelding op"
  *  		}
  *  	},
  *     "put"={
- *  		"normalizationContext"={"groups"={"informatie:lezen"}},
- *  		"denormalizationContext"={"groups"={"informatie:verwijderen"}},
- *      	"path"="/afbeeldingen/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:verwijderen"}},
+ *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifieke afbeelding"
  *  		}
  *  	},
  *     "delete"={
- *  		"normalizationContext"={"groups"={"informatie:lezen"}},
- *  		"denormalizationContext"={"groups"={"informatie:verwijderen"}},
- *      	"path"="/afbeeldingen/{id}",
+ *  		"normalizationContext"={"groups"={"afbeelding:lezen"}},
+ *  		"denormalizationContext"={"groups"={"afbeelding:verwijderen"}},
+ *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Verwijder een specifieke afbeelding"
  *  		}
  *  	},
  *     "log"={
  *         	"method"="GET",
- *         	"path"="/afbeeldingen/{id}/log",
+ *         	"path"="/documenten/{id}/log",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"informatie:lezen"}},
- *     		"denormalization_context"={"groups"={"informatie:logboek"}},
+ *     		"normalization_context"={"groups"={"afbeelding:lezen"}},
+ *     		"denormalization_context"={"groups"={"afbeelding:logboek"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
  *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
@@ -91,10 +91,10 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     },
  *     "revert"={
  *         	"method"="POST",
- *         	"path"="/afbeeldingen/{id}/revert/{version}",
+ *         	"path"="/documenten/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"informatie:lezen"}},
- *     		"denormalization_context"={"groups"={"informatie:schrijven"}},
+ *     		"normalization_context"={"groups"={"afbeelding:lezen"}},
+ *     		"denormalization_context"={"groups"={"afbeelding:schrijven"}},
  *         	"openapi_context" = {
  *         		"summary" = "Versie herstellen",
  *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
@@ -124,7 +124,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @Gedmo\Loggable(logEntryClass="ActivityLogBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
  */
-class Afbeelding implements StringableInterface
+class Document implements StringableInterface
 {
 	/**
 	 * Het identificatienummer van deze afbeelding <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -134,15 +134,15 @@ class Afbeelding implements StringableInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
+	 * @Groups({"informatie:lezen"})
 	 * @ApiProperty(iri="https://schema.org/identifier")
 	 */
 	public $id;
 	
 	/**
 	 * Een document hoort altijd bij een informatie object
-	 *
-	 *
+	 * 
+	 * 
 	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie", inversedBy="document")
 	 * @ORM\JoinColumn(referencedColumnName="id")
 	 */

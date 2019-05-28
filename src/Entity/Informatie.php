@@ -33,16 +33,16 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
+ *  		"normalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
  * 				"summary" = "Haalt een verzameling van informatie objecten op."
  *  		}
  *  	},
  *  	"post"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:maken"}},
+ *  		"normalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"informatie:maken"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
  * 					"summary" = "Maak een informatie object aan."
@@ -51,24 +51,24 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  },
  * 	itemOperations={
  *     "get"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:lezen"}},
+ *  		"normalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Haal een specifiek informatie object op."
  *  		}
  *  	},
  *     "put"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:schrijven"}},
+ *  		"normalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Vervang een specifiek informatie object."
  *  		}
  *  	},
  *     "delete"={
- *  		"normalizationContext"={"groups"={"document:lezen"}},
- *  		"denormalizationContext"={"groups"={"document:verwijderen"}},
+ *  		"normalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *  		"denormalizationContext"={"groups"={"informatie:verwijderen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
  * 				"summary" = "Verwijder een specifiek informatie object."
@@ -78,8 +78,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         	"method"="GET",
  *         	"path"="/documenten/{id}/log",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"informatie:lezen","enable_max_depth" = true, "circular_reference_handler"}},
+ *     		"denormalization_context"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
  *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit informatie object.",
@@ -93,8 +93,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         	"method"="POST",
  *         	"path"="/documenten/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
- *     		"normalization_context"={"groups"={"document:lezen"}},
- *     		"denormalization_context"={"groups"={"document:schrijven"}},
+ *     		"normalization_context"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
+ *     		"denormalization_context"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Versie herstellen",
  *         		"description" = "Herstel een eerdere versie van dit informatie object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
@@ -134,10 +134,20 @@ class Informatie implements StringableInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
+	 * @Groups({"informatie:lezen"})
 	 * @ApiProperty(iri="https://schema.org/identifier")
 	 */
 	public $id;
+	
+	/**
+	 * @var string De locatie van dit informatie object.
+	 *
+	 * @ORM\Column(
+	 * 		nullable=true
+	 * )
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
+	 */
+	public $url;
 	
 	/**
 	 * De unieke identificatie van dit informatie object binnen de organisatie die dit informatie object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -152,7 +162,7 @@ class Informatie implements StringableInterface
 	 *      max = 40,
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -181,7 +191,7 @@ class Informatie implements StringableInterface
 	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
 	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
 	 * @ApiFilter(OrderFilter::class)
 	 * @ApiProperty(
@@ -219,7 +229,7 @@ class Informatie implements StringableInterface
 	 * )
 	 * @ApiFilter(SearchFilter::class, strategy="exact")
 	 * @ApiFilter(OrderFilter::class)
-	 * @Groups({"read", "write"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
 	public $type;
 	
@@ -228,7 +238,7 @@ class Informatie implements StringableInterface
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
 	public $naam;
 	
@@ -237,7 +247,7 @@ class Informatie implements StringableInterface
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
 	public $orgineleNaam;
 	
@@ -257,7 +267,7 @@ class Informatie implements StringableInterface
 	 *         }
 	 *     }
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen"})
 	 */
 	public $size;
 	
@@ -275,7 +285,7 @@ class Informatie implements StringableInterface
 	 *         }
 	 *     }
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
 	public $extention;
 	
@@ -295,19 +305,19 @@ class Informatie implements StringableInterface
 	 *         }
 	 *     }
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
 	public $mimeType;
 	
 	/**
-	 * @var string De locatie van dit informatie object.
+	 * @var string De locatie van het bestand in dit object.
 	 *
 	 * @ORM\Column(
 	 * 		nullable=true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
-	public $url;
+	public $locatie;
 	
 	/**
 	 * @var string De base64 representatie van dit informatie object.
@@ -315,9 +325,60 @@ class Informatie implements StringableInterface
 	 * @ORM\Column(
 	 * 		nullable=true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
-	public $base64;
+	public $base64;	
+	
+	/**	  
+	 * Een infromatie object kan een document, film of afbeelding zijn.
+	 * 
+     * @MaxDepth(1)
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie\Document", mappedBy="informatieObject")
+	 */
+	public $document;
+		
+	/**
+	 * Een infromatie object kan een document, film of afbeelding zijn.
+	 * 
+     * @MaxDepth(1)
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie\Film", mappedBy="informatieObject")
+	 */
+	public $film;
+		
+	/**
+	 * Een infromatie object kan een document, film of afbeelding zijn.
+	 * 
+     * @MaxDepth(1)
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie\Afbeelding", mappedBy="informatieObject")
+	 */
+	public $afbeelding;
+	
+	/**
+	 * De de auteur van dit object.
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     nullable = true
+	 * )
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="Contactpersoon",
+	 *             "type"="url",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
+	 *             "maxLength"=255,
+	 *             "format"="uri"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $auteur;
 	
 	/**
 	 * Het tijdstip waarop dit informatie object object is aangemaakt
@@ -328,7 +389,7 @@ class Informatie implements StringableInterface
 	 * @ORM\Column(
 	 *     type     = "datetime"
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen"})
 	 */
 	public $registratiedatum;
 	
@@ -342,7 +403,7 @@ class Informatie implements StringableInterface
 	 *     type     = "datetime",
 	 *     nullable	= true
 	 * )
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen"})
 	 */
 	public $wijzigingsdatum;
 	
@@ -353,7 +414,7 @@ class Informatie implements StringableInterface
 	 *     type     = "string",
 	 *     nullable = true
 	 * )
-	 * @Groups({"read", "write"})
+	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 * @ApiProperty(
 	 *     attributes={
 	 *         "openapi_context"={
@@ -377,7 +438,7 @@ class Informatie implements StringableInterface
 	 *
 	 * @Gedmo\Blameable(on="create")
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
-	 * @Groups({"read"})
+	 * @Groups({"informatie:lezen"})
 	 */
 	public $eigenaar;
 	
