@@ -97,7 +97,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"sjabloon:weergeven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Render",
- *         		"description" = "Vervang ingestelde variabelen in het sjabloon door mee gegeven array.",
+ *         		"description" = "Vervang ingestelde variabelen in het sjabloon door meegegeven array.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -142,7 +142,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Sjabloon implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit Sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatienummer van dit Sjabloon. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -183,7 +183,7 @@ class Sjabloon implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe dit Sjabloon behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
+	 * Het RSIN van de organisatie waartoe dit Sjabloon behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -257,7 +257,7 @@ class Sjabloon implements StringableInterface
 	 *     attributes={
 	 *         "openapi_context"={
 	 *             "type"="string",
-	 *             "example"="Start pagina van belangrijk procces",
+	 *             "example"="Startpagina van een belangrijk proces",
 	 *             "maxLength"=0,
 	 *             "minLength"=255
 	 *         }
@@ -287,7 +287,7 @@ class Sjabloon implements StringableInterface
 	 *     attributes={
 	 *         "openapi_context"={
 	 *             "type"="string",
-	 *             "example"="Welkom bij het procces!",
+	 *             "example"="Welkom bij het proces!",
 	 *             "maxLength"=0,
 	 *             "minLength"=255
 	 *         }
@@ -327,7 +327,7 @@ class Sjabloon implements StringableInterface
 	public $beschrijving;
 	
 	/**
-	 * @var string De daadwerlijke (twig) inhoud van dit Sjabloon.
+	 * @var string De daadwerkelijke (twig) inhoud van dit Sjabloon.
 	 *	 
 	 * @ORM\Column(
 	 *     type     = "text"
@@ -373,7 +373,7 @@ class Sjabloon implements StringableInterface
 	public $bericht;
 	
 	/**
-	 * Het tijdstip waarop dit Sjabloon object is aangemaakt
+	 * Het tijdstip waarop dit Sjabloon object is aangemaakt.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -440,7 +440,7 @@ class Sjabloon implements StringableInterface
 	 */
 	
 	/**
-	 * Variabelen die worden gebruikt in het criëeren van een weergaven voor deze Pagina.
+	 * Variabelen die worden gebruikt in het crieëren van een weergave voor dit Sjabloon.
 	 *
 	 * @Groups({"sjabloon:weergeven"})
 	 * @ApiProperty(

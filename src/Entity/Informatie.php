@@ -37,7 +37,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van informatie objecten op."
+ * 				"summary" = "Haalt een verzameling van informatieobjecten op."
  *  		}
  *  	},
  *  	"post"={
@@ -45,7 +45,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"informatie:maken"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten",
  *  		"openapi_context" = {
- * 					"summary" = "Maak een informatie object aan."
+ * 					"summary" = "Maak een informatieobject aan."
  *  		}
  *  	}
  *  },
@@ -55,7 +55,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"informatie:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifiek informatie object op."
+ * 				"summary" = "Haal een specifiek informatieobject op."
  *  		}
  *  	},
  *     "put"={
@@ -63,7 +63,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifiek informatie object."
+ * 				"summary" = "Vervang een specifiek informatieobject."
  *  		}
  *  	},
  *     "delete"={
@@ -71,7 +71,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"informatie:verwijderen"},"enable_max_depth" = true, "circular_reference_handler"},
  *      	"path"="/documenten/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifiek informatie object."
+ * 				"summary" = "Verwijder een specifiek informatieobject."
  *  		}
  *  	},
  *     "log"={
@@ -82,7 +82,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit informatie object.",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit informatieobject.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -97,7 +97,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"informatie:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
  *         		"summary" = "Versie herstellen",
- *         		"description" = "Herstel een eerdere versie van dit informatie object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
+ *         		"description" = "Herstel een eerdere versie van dit informatieobject. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -113,7 +113,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Informatie object niet gevonden"
+ *         				"description" = "informatieobject niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -127,7 +127,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Informatie implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van dit informatie object. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatienummer van dit informatieobject. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -150,7 +150,7 @@ class Informatie implements StringableInterface
 	public $url;
 	
 	/**
-	 * De unieke identificatie van dit informatie object binnen de organisatie die dit informatie object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * De unieke identificatie van dit informatieobject binnen de organisatie die dit informatieobject heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -168,7 +168,7 @@ class Informatie implements StringableInterface
 	 *         "openapi_context"={
 	 *             "type"="string",
 	 *             "example"="6a36c2c4-213e-4348-a467-dfa3a30f64aa",
-	 *             "description"="De unieke identificatie van dit informatie object van de organisatie die dit object heeft gecreëerd.",
+	 *             "description"="De unieke identificatie van dit informatieobject van de organisatie die dit object heeft gecreëerd.",
 	 *             "maxLength"=40
 	 *         }
 	 *     }
@@ -178,7 +178,7 @@ class Informatie implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe dit informatie object behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven
+	 * Het RSIN van de organisatie waartoe dit informatieobject behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -234,7 +234,7 @@ class Informatie implements StringableInterface
 	public $type;
 	
 	/**
-	 * @var string De naam van dit informatie object.
+	 * @var string De naam van dit informatieobject.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -243,7 +243,7 @@ class Informatie implements StringableInterface
 	public $naam;
 	
 	/**
-	 * @var string De originele naam van dit informatie object.
+	 * @var string De originele naam van dit informatieobject.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -252,7 +252,7 @@ class Informatie implements StringableInterface
 	public $orgineleNaam;
 	
 	/**
-	 * @var string De grote van dit informatie object in bytes, waar 1024 gelijk is aan 1KB en 1048576 aan 1MB.
+	 * @var string De grote van dit informatieobject in bytes, waar 1024 gelijk is aan 1KB en 1048576 aan 1MB.
 	 *
 	 * @ORM\Column(
 	 * 		type="integer", 		
@@ -272,7 +272,7 @@ class Informatie implements StringableInterface
 	public $size;
 	
 	/**
-	 * @var string De extentie van dit informatie object.
+	 * @var string De extensie van dit informatieobject.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -287,10 +287,10 @@ class Informatie implements StringableInterface
 	 * )
 	 * @Groups({"informatie:lezen","informatie:schrijven","informatie:maken"})
 	 */
-	public $extention;
+	public $extension;
 	
 	/**
-	 * @var string Het bestandstype van dit informatie object volgens: <br> https://www.iana.org/assignments/media-types/media-types.xhtml.
+	 * @var string Het bestandstype van dit informatieobject volgens: <br> https://www.iana.org/assignments/media-types/media-types.xhtml.
 	 *
 	 * @ORM\Column(
 	 * 		nullable=true
@@ -310,7 +310,7 @@ class Informatie implements StringableInterface
 	public $mimeType;
 	
 	/**
-	 * @var string De locatie van het bestand in dit object.
+	 * @var string De locatie van dit informatieobject.
 	 *
 	 * @ORM\Column(
 	 * 		nullable=true
@@ -320,7 +320,7 @@ class Informatie implements StringableInterface
 	public $locatie;
 	
 	/**
-	 * @var string De base64 representatie van dit informatie object.
+	 * @var string De base64 representatie van dit informatieobject.
 	 *
 	 * @ORM\Column(
 	 * 		nullable=true
@@ -381,7 +381,7 @@ class Informatie implements StringableInterface
 	public $auteur;
 	
 	/**
-	 * Het tijdstip waarop dit informatie object object is aangemaakt
+	 * Het tijdstip waarop dit informatieobject is aangemaakt.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -394,7 +394,7 @@ class Informatie implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit informatie object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop dit informatieobject voor het laatst is gewijzigd.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -408,7 +408,7 @@ class Informatie implements StringableInterface
 	public $wijzigingsdatum;
 	
 	/**
-	 * De contactpersoon voor dit informatie object.
+	 * De contactpersoon voor dit informatieobject.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -432,7 +432,7 @@ class Informatie implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het informatie object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het informatieobject, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *

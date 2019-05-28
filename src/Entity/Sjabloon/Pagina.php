@@ -30,7 +30,111 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  * @package		Common Ground
  * @subpackage  Documenten
  * 
- * @ApiResource 
+ *  @ApiResource( 
+ *  collectionOperations={
+ *  	"get"={
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
+ *      	"path"="/paginas",
+ *  		"openapi_context" = {
+ * 				"summary" = "Haalt een verzameling van Pagina's op."
+ *  		}
+ *  	},
+ *  	"post"={
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:maken"}},
+ *      	"path"="/paginas",
+ *  		"openapi_context" = {
+ * 					"summary" = "Maak een Pagina aan."
+ *  		}
+ *  	}
+ *  },
+ * 	itemOperations={
+ *     "get"={
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"pagina:lezen"}},
+ *      	"path"="/paginas/{id}",
+ *  		"openapi_context" = {
+ * 				"summary" = "Haal een specifieke Pagina op."
+ *  		}
+ *  	},
+ *     "put"={
+ *  		"normalizationContext"={"groups"={"read"}},
+ *  		"denormalizationContext"={"groups"={"write"}},
+ *      	"path"="/paginas/{id}",
+ *  		"openapi_context" = {
+ * 				"summary" = "Vervang een specifieke Pagina."
+ *  		}
+ *  	},
+ *     "delete"={
+ *  		"normalizationContext"={"groups"={"pagina:lezen"}},
+ *  		"denormalizationContext"={"groups"={"write"}},
+ *      	"path"="/paginas/{id}",
+ *  		"openapi_context" = {
+ * 				"summary" = "Verwijder een specifieke Pagina."
+ *  		}
+ *  	},
+ *     "log"={
+ *         	"method"="GET",
+ *         	"path"="/paginas/{id}/log",
+ *          "controller"= HuwelijkController::class,
+ *     		"normalization_context"={"groups"={"sjabloon:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:lezen"}},
+ *         	"openapi_context" = {
+ *         		"summary" = "Logboek inzien",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit Pagina object.",
+ *          	"consumes" = {
+ *              	"application/json",
+ *               	"text/html",
+ *            	}           
+ *         }
+ *     },
+ *     "render"={
+ *         	"method"="GET",
+ *         	"path"="/sjablonen/{id}/render",
+ *          "controller"= HuwelijkController::class,
+ *     		"normalization_context"={"groups"={"pagina:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:weergeven"}},
+ *         	"openapi_context" = {
+ *         		"summary" = "Render",
+ *         		"description" = "Vervang ingestelde variabelen in de Pagina door mee gegeven array.",
+ *          	"consumes" = {
+ *              	"application/json",
+ *               	"text/html",
+ *            	}           
+ *         }
+ *     },
+ *     "revert"={
+ *         	"method"="POST",
+ *         	"path"="/paginas/{id}/revert/{version}",
+ *          "controller"= HuwelijkController::class,
+ *     		"normalization_context"={"groups"={"pagina:lezen"}},
+ *     		"denormalization_context"={"groups"={"pagina:schrijven"}},
+ *         	"openapi_context" = {
+ *         		"summary" = "Versie herstellen",
+ *         		"description" = "Herstel een eerdere versie van dit Pagina object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt.",
+ *          	"consumes" = {
+ *              	"application/json",
+ *               	"text/html",
+ *            	},
+ *             	"produces" = {
+ *         			"application/json"
+ *            	},
+ *             	"responses" = {
+ *         			"202" = {
+ *         				"description" = "Terug gedraaid naar eerdere versie"
+ *         			},	
+ *         			"400" = {
+ *         				"description" = "Ongeldige aanvraag"
+ *         			},
+ *         			"404" = {
+ *         				"description" = "Pagina niet gevonden"
+ *         			}
+ *            	}            
+ *         }
+ *     }
+ *  }
+ * )
  * @ORM\Entity
  * @Gedmo\Loggable(logEntryClass="ActivityLogBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
@@ -72,7 +176,7 @@ class Pagina implements StringableInterface
 	public $slug;	
 	
 	/**
-	 * @var string De beschrijving van het doel van deze Pagina voor zoekmachines,
+	 * @var string De beschrijving van het doel van deze Pagina voor zoekmachines.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -83,8 +187,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De beschrijving moeten tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De beschrijving mag maximaal  {{ limit }} tekens bevatten"
+	 *      minMessage = "De beschrijving moeten minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De beschrijving mag maximaal  {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -111,8 +215,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De keywords moeten minimaal {{ limit }} tekens bevatten",
-	 *      maxMessage = "De keywords mogen maximaal  {{ limit }} tekens bevatten"
+	 *      minMessage = "De keywords moeten minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De keywords mogen maximaal  {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -167,8 +271,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De revisist afther moet minimaal {{ limit }} tekens bevatten",
-	 *      maxMessage = "De revisist afther kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De revisist afther moet minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De revisist afther kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -195,8 +299,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De auteur moet tenminste {{ limit }} tekens bevatten",
-	 *      maxMessage = "De auteur kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De auteur moet tenminste {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De auteur kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -212,7 +316,7 @@ class Pagina implements StringableInterface
 	public $metaAuthor;
 	
 	/**
-	 * @var string De copyright metatag wordt ook gebruikt om melding te maken van : trademarks, patent nummers van intelectueel eigendom.
+	 * @var string De copyright metatag wordt ook gebruikt om melding te maken van: trademarks, patent nummers van intelectueel eigendom.
 	 * 
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -223,8 +327,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De copyright verwijzing moet minimaal {{ limit }} tekens bevatten",
-	 *      maxMessage = "De copyright verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De copyright verwijzing moet minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De copyright verwijzing kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -251,8 +355,8 @@ class Pagina implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
-	 *      minMessage = "De contact verwijzing moet minimaal {{ limit }} tekens bevatten",
-	 *      maxMessage = "De contact verwijzing kan maximaal {{ limit }} tekens bevatten"
+	 *      minMessage = "De contact verwijzing moet minimaal {{ limit }} tekens bevatten.",
+	 *      maxMessage = "De contact verwijzing kan maximaal {{ limit }} tekens bevatten."
 	 * )
 	 * @ApiProperty(
 	 *     attributes={
@@ -324,6 +428,110 @@ class Pagina implements StringableInterface
 	 */
 	public $metaCanonical;
 	
+	
+	/**
+	 * Het tijdstip waarop dit Pagina object is aangemaakt.
+	 *
+	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde."
+	 * @Gedmo\Timestampable(on="create")
+	 * @Assert\DateTime
+	 * @ORM\Column(
+	 *     type     = "datetime"
+	 * )
+	 * @Groups({"pagina:lezen"})
+	 */
+	public $registratiedatum;
+	
+	/**
+	 * Het tijdstip waarop dit Pagina object voor het laatst is gewijzigd.
+	 *
+	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde."
+	 * @Gedmo\Timestampable(on="update")
+	 * @Assert\DateTime
+	 * @ORM\Column(
+	 *     type     = "datetime",
+	 *     nullable	= true
+	 * )
+	 * @Groups({"pagina:lezen"})
+	 */
+	public $wijzigingsdatum;
+	
+	/**
+	 * De contactpersoon voor deze Pagina.
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     nullable = true
+	 * )
+	 * @Groups({"pagina:lezen", "pagina:weergeven"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="Contactpersoon",
+	 *             "type"="url",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
+	 *             "maxLength"=255,
+	 *             "format"="uri"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $contactPersoon;
+	
+	/**
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Pagina object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 *
+	 * @var App\Entity\Applicatie $eigenaar
+	 *
+	 * @Gedmo\Blameable(on="create")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
+	 * @Groups({"pagina:lezen"})
+	 */
+	public $eigenaar;
+	
+	/*
+	 * Dan hebben we uiteraard nog een paar call specificieke properties.
+	 * 
+	 */
+	
+	/**
+	 * Variabelen die worden gebruikt in het criëeren van een weergaven voor deze Pagina.
+	 *
+	 * @Groups({"pagina:weergeven"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="variabelen",
+	 *             "type"="array",
+	 *             "example"="[]",
+	 *             "format"="array"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $variabelen;
+	
+	/**
+	 * Een overzicht van alle op deze Pagina uitgevoerde wijzigingen.
+ 	 *
+	 * @Groups({"pagina:logboek"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="logboek",
+	 *             "type"="array",
+	 *             "example"="[]",
+	 *             "format"="array"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $logboek;
+	
 	/**
 	 * @return string
 	 */
@@ -332,11 +540,26 @@ class Pagina implements StringableInterface
 	}
 	
 	/**
-	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
+	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
 	{
 		return $this->toString();
 	}
 	
+	/**
+	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values.
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function prePersist()
+	{
+		$this->registratieDatum = new \ Datetime();
+		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
+		return $this;
+	}
+	public function getUrl()
+	{
+		return 'http://resources.demo.zaakonline.nl/paginas/'.$this->id;
+	}
 }
