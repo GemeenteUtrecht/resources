@@ -108,9 +108,11 @@ parameters:
               description: "Een Informatieobject bestand."
             - name: Film
               description: "Een film bestand."
+            - name: Document
+              description: "Overige bestanden bijvoorbeeld een text bestand"
             - name: Pagina
               description: "Een webpagina te genereren aan de hand van variabelen."
-              name: Bericht
+            - name: Bericht
               description: "Een bericht sjabloon voor het genereren van berichten aan de hand van variabelen."
             - name: Sjabloon
               description: "Een sjabloon voor het genereren van bestanden of berichten aan de hand van variabelen."
@@ -121,14 +123,13 @@ parameters:
             - name: Informatie Object
               tags:
               - Informatie
+              - Afbeelding
+              - Film
             - name: Sjabloon
               tags:
-              - Afbeelding
-              - Informatieobject
-              - Film
+              - Sjabloon
               - Pagina
               - Bericht
-              - Sjabloon
             - name: Applicatie
               tags:
               - Applicatie
