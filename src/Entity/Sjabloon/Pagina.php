@@ -2,6 +2,8 @@
 
 namespace App\Entity\Sjabloon;
 
+use App\Entity\Applicatie;
+use App\Entity\Sjabloon;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -536,17 +538,18 @@ class Pagina implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                                                                                                                                                                                                	{
+                                                                                                                                                                                                		return $this->orgineleNaam;
+                                                                                                                                                                                                	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                                                                                                                                                                                                	{
+                                                                                                                                                                                                		return $this->toString();
+                                                                                                                                                                                                	}
 	
 	/**
 	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values.
@@ -554,13 +557,198 @@ class Pagina implements StringableInterface
 	 * @ORM\PrePersist
 	 */
 	public function prePersist()
-	{
-		$this->registratieDatum = new \ Datetime();
-		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
-		return $this;
-	}
+                                                                                                                                                                                                	{
+                                                                                                                                                                                                		$this->registratieDatum = new \ Datetime();
+                                                                                                                                                                                                		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
+                                                                                                                                                                                                		return $this;
+                                                                                                                                                                                                	}
 	public function getUrl()
-	{
-		return 'http://resources.demo.zaakonline.nl/paginas/'.$this->id;
-	}
+                                                                                                                                                                                                	{
+                                                                                                                                                                                                		return 'http://resources.demo.zaakonline.nl/paginas/'.$this->id;
+                                                                                                                                                                                                	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaDescription(?string $metaDescription): self
+    {
+        $this->metaDescription = $metaDescription;
+
+        return $this;
+    }
+
+    public function getMetaKeywords(): ?string
+    {
+        return $this->metaKeywords;
+    }
+
+    public function setMetaKeywords(?string $metaKeywords): self
+    {
+        $this->metaKeywords = $metaKeywords;
+
+        return $this;
+    }
+
+    public function getMetaRobots(): ?string
+    {
+        return $this->metaRobots;
+    }
+
+    public function setMetaRobots(?string $metaRobots): self
+    {
+        $this->metaRobots = $metaRobots;
+
+        return $this;
+    }
+
+    public function getMetaRevisitAfter(): ?string
+    {
+        return $this->metaRevisitAfter;
+    }
+
+    public function setMetaRevisitAfter(?string $metaRevisitAfter): self
+    {
+        $this->metaRevisitAfter = $metaRevisitAfter;
+
+        return $this;
+    }
+
+    public function getMetaAuthor(): ?string
+    {
+        return $this->metaAuthor;
+    }
+
+    public function setMetaAuthor(?string $metaAuthor): self
+    {
+        $this->metaAuthor = $metaAuthor;
+
+        return $this;
+    }
+
+    public function getMetaCopyright(): ?string
+    {
+        return $this->metaCopyright;
+    }
+
+    public function setMetaCopyright(?string $metaCopyright): self
+    {
+        $this->metaCopyright = $metaCopyright;
+
+        return $this;
+    }
+
+    public function getMetaContact(): ?string
+    {
+        return $this->metaContact;
+    }
+
+    public function setMetaContact(?string $metaContact): self
+    {
+        $this->metaContact = $metaContact;
+
+        return $this;
+    }
+
+    public function getMetaOriginalSource(): ?string
+    {
+        return $this->metaOriginalSource;
+    }
+
+    public function setMetaOriginalSource(?string $metaOriginalSource): self
+    {
+        $this->metaOriginalSource = $metaOriginalSource;
+
+        return $this;
+    }
+
+    public function getMetaCanonical(): ?string
+    {
+        return $this->metaCanonical;
+    }
+
+    public function setMetaCanonical(?string $metaCanonical): self
+    {
+        $this->metaCanonical = $metaCanonical;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
+
+    public function getSjabloon(): ?Sjabloon
+    {
+        return $this->sjabloon;
+    }
+
+    public function setSjabloon(?Sjabloon $sjabloon): self
+    {
+        $this->sjabloon = $sjabloon;
+
+        return $this;
+    }
+
+    public function getEigenaar(): ?Applicatie
+    {
+        return $this->eigenaar;
+    }
+
+    public function setEigenaar(?Applicatie $eigenaar): self
+    {
+        $this->eigenaar = $eigenaar;
+
+        return $this;
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity\Informatie;
 
+use App\Entity\Applicatie;
+use App\Entity\Informatie;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -350,16 +352,178 @@ class Film implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                                                                                                                                                                        	{
+                                                                                                                                                                        		return $this->orgineleNaam;
+                                                                                                                                                                        	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                                                                                                                                                                        	{
+                                                                                                                                                                        		return $this->toString();
+                                                                                                                                                                        	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getIdentificatie(): ?string
+    {
+        return $this->identificatie;
+    }
+
+    public function setIdentificatie(?string $identificatie): self
+    {
+        $this->identificatie = $identificatie;
+
+        return $this;
+    }
+
+    public function getBronOrganisatie(): ?int
+    {
+        return $this->bronOrganisatie;
+    }
+
+    public function setBronOrganisatie(int $bronOrganisatie): self
+    {
+        $this->bronOrganisatie = $bronOrganisatie;
+
+        return $this;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getOrgineleNaam(): ?string
+    {
+        return $this->orgineleNaam;
+    }
+
+    public function setOrgineleNaam(string $orgineleNaam): self
+    {
+        $this->orgineleNaam = $orgineleNaam;
+
+        return $this;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(?int $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getBase64(): ?string
+    {
+        return $this->base64;
+    }
+
+    public function setBase64(?string $base64): self
+    {
+        $this->base64 = $base64;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
+
+    public function getMimeType(): ?Informatie
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?Informatie $mimeType): self
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    public function getEigenaar(): ?Applicatie
+    {
+        return $this->eigenaar;
+    }
+
+    public function setEigenaar(?Applicatie $eigenaar): self
+    {
+        $this->eigenaar = $eigenaar;
+
+        return $this;
+    }
 	
 }

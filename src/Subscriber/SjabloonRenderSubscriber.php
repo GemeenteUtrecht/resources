@@ -15,41 +15,55 @@ use Doctrine\ORM\EntityManagerInterface;
 
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use App\Entity\Agenda;
+use Symfony\Component\Templating\EngineInterface;
+use App\Entity\Sjabloon;
 
-final class AgendaGetSubscriber implements EventSubscriberInterface
+final class SjabloonRenderSubscriber implements EventSubscriberInterface
 {
 	private $params;
 	private $entityManager;
 	private $serializer;
+	private $templating;
 	
-	public function __construct(ParameterBagInterface $params, EntityManagerInterface $entityManager, SerializerInterface $serializer)
+	public function __construct(ParameterBagInterface $params, EntityManagerInterface $entityManager, SerializerInterface $serializer, \Twig_Environment $templating)
 	{
 		$this->params = $params;
 		$this->entityManager= $entityManager;
 		$this->serializer= $serializer;
+		$this->templating= $templating;
 	}
 	
 	public static function getSubscribedEvents()
 	{
 		return [
-				KernelEvents::VIEW => ['agenda', EventPriorities::PRE_VALIDATE]
+				KernelEvents::VIEW => ['sjabloon', EventPriorities::PRE_VALIDATE]
 		];
 	}
 	
-	public function agenda(GetResponseForControllerResultEvent $event)
+	public function sjabloon(GetResponseForControllerResultEvent $event)
 	{
-		$agenda = $event->getControllerResult();
+		$sjabloon = $event->getControllerResult();
 		$method = $event->getRequest()->getMethod();
 				
 		// Lats make sure that some one posts correctly
-		if (!$agenda instanceof Agenda|| Request::METHOD_GET !== $method || $event->getRequest()->get('_route') != 'api_agendas_get_item') {
+		if (!$sjabloon instanceof Sjabloon|| Request::METHOD_GET !== $method || $event->getRequest()->get('_route') != 'api_sjabloons_render_item') {
 			return;
 		}
 				
+		$titel = $this->templating->createTemplate($sjabloon->getTitel());
+		$inhoud = $this->templating->createTemplate($sjabloon->getInhoud());
+		
+		// Then we need to render the templates		
+		$sjabloon->setVariabelen([]);
+		
+		$sjabloon->setTitel($titel->render($sjabloon->getVariabelen()));
+		$sjabloon->setInhoud($inhoud->render($sjabloon->getVariabelen()));
+		
+		//var_dump($sjabloon->getTitel());
+		
 		$json = $this->serializer->serialize(
-				$agenda,
-				'jsonld',['enable_max_depth' => true,'groups' => 'read']
+				$sjabloon,
+				'jsonld',['enable_max_depth' => true,'groups' => 'sjabloon:weergeven']
 				);
 		
 		$response = new Response(

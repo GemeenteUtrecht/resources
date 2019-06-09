@@ -2,6 +2,7 @@
 
 namespace App\Entity\Informatie;
 
+use App\Entity\Informatie;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -152,15 +153,33 @@ class Document implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                     	{
+                     		return $this->orgineleNaam;
+                     	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                     	{
+                     		return $this->toString();
+                     	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getInformatieObject(): ?Informatie
+    {
+        return $this->informatieObject;
+    }
+
+    public function setInformatieObject(?Informatie $informatieObject): self
+    {
+        $this->informatieObject = $informatieObject;
+
+        return $this;
+    }
 }

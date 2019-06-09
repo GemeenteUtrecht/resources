@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Informatie\Afbeelding;
+use App\Entity\Informatie\Document;
+use App\Entity\Informatie\Film;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -446,17 +449,18 @@ class Informatie implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                                                                                                                                                                                                                                                   	{
+                                                                                                                                                                                                                                                   		return $this->orgineleNaam;
+                                                                                                                                                                                                                                                   	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                                                                                                                                                                                                                                                   	{
+                                                                                                                                                                                                                                                   		return $this->toString();
+                                                                                                                                                                                                                                                   	}
 	
 	/**
 	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values
@@ -464,13 +468,260 @@ class Informatie implements StringableInterface
 	 * @ORM\PrePersist
 	 */
 	public function prePersist()
-	{
-		$this->registratieDatum = new \ Datetime();
-		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
-		return $this;
-	}
-	public function getUrl()
-	{
-		return 'http://resources.demo.zaakonline.nl/documenten/'.$this->id;
-	}
+                                                                                                                                                                                                                                                   	{
+                                                                                                                                                                                                                                                   		$this->registratieDatum = new \ Datetime();
+                                                                                                                                                                                                                                                   		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
+                                                                                                                                                                                                                                                   		return $this;
+                                                                                                                                                                                                                                                   	}
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getIdentificatie(): ?string
+    {
+        return $this->identificatie;
+    }
+
+    public function setIdentificatie(?string $identificatie): self
+    {
+        $this->identificatie = $identificatie;
+
+        return $this;
+    }
+
+    public function getBronOrganisatie(): ?int
+    {
+        return $this->bronOrganisatie;
+    }
+
+    public function setBronOrganisatie(int $bronOrganisatie): self
+    {
+        $this->bronOrganisatie = $bronOrganisatie;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getOrgineleNaam(): ?string
+    {
+        return $this->orgineleNaam;
+    }
+
+    public function setOrgineleNaam(string $orgineleNaam): self
+    {
+        $this->orgineleNaam = $orgineleNaam;
+
+        return $this;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(?int $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?string $mimeType): self
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    public function getLocatie(): ?string
+    {
+        return $this->locatie;
+    }
+
+    public function setLocatie(?string $locatie): self
+    {
+        $this->locatie = $locatie;
+
+        return $this;
+    }
+
+    public function getBase64(): ?string
+    {
+        return $this->base64;
+    }
+
+    public function setBase64(?string $base64): self
+    {
+        $this->base64 = $base64;
+
+        return $this;
+    }
+
+    public function getAuteur(): ?string
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?string $auteur): self
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
+
+    public function getDocument(): ?Document
+    {
+        return $this->document;
+    }
+
+    public function setDocument(?Document $document): self
+    {
+        $this->document = $document;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newInformatieObject = $document === null ? null : $this;
+        if ($newInformatieObject !== $document->getInformatieObject()) {
+            $document->setInformatieObject($newInformatieObject);
+        }
+
+        return $this;
+    }
+
+    public function getFilm(): ?Film
+    {
+        return $this->film;
+    }
+
+    public function setFilm(?Film $film): self
+    {
+        $this->film = $film;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newInformatieObject = $film === null ? null : $this;
+        if ($newInformatieObject !== $film->getInformatieObject()) {
+            $film->setInformatieObject($newInformatieObject);
+        }
+
+        return $this;
+    }
+
+    public function getAfbeelding(): ?Afbeelding
+    {
+        return $this->afbeelding;
+    }
+
+    public function setAfbeelding(?Afbeelding $afbeelding): self
+    {
+        $this->afbeelding = $afbeelding;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newInformatieObject = $afbeelding === null ? null : $this;
+        if ($newInformatieObject !== $afbeelding->getInformatieObject()) {
+            $afbeelding->setInformatieObject($newInformatieObject);
+        }
+
+        return $this;
+    }
+
+    public function getEigenaar(): ?Applicatie
+    {
+        return $this->eigenaar;
+    }
+
+    public function setEigenaar(?Applicatie $eigenaar): self
+    {
+        $this->eigenaar = $eigenaar;
+
+        return $this;
+    }
 }

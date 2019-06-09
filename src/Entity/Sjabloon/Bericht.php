@@ -2,6 +2,7 @@
 
 namespace App\Entity\Sjabloon;
 
+use App\Entity\Sjabloon;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -56,20 +57,38 @@ class Bericht implements StringableInterface
 	 * @ORM\OneToOne(targetEntity="App\Entity\Sjabloon", inversedBy="bericht")
 	 * @ORM\JoinColumn(referencedColumnName="id")
 	 */
-	public $bericht;
+	public $sjabloon;
 		
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                     	{
+                     		return $this->orgineleNaam;
+                     	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                     	{
+                     		return $this->toString();
+                     	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSjabloon(): ?Sjabloon
+    {
+        return $this->sjabloon;
+    }
+
+    public function setSjabloon(?Sjabloon $sjabloon): self
+    {
+        $this->sjabloon = $sjabloon;
+
+        return $this;
+    }
 }

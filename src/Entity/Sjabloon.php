@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Sjabloon\Bericht;
+use App\Entity\Sjabloon\Pagina;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -17,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 
 /**
- * Document
+ * Sjabloon
  * 
  * Beschrijving
  * 
@@ -78,7 +80,6 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     "log"={
  *         	"method"="GET",
  *         	"path"="/sjablonen/{id}/log",
- *          "controller"= HuwelijkController::class,
  *     		"normalization_context"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *     		"denormalization_context"={"groups"={"sjabloon:schrijven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
@@ -93,7 +94,6 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     "render"={
  *         	"method"="GET",
  *         	"path"="/sjablonen/{id}/render",
- *          "controller"= HuwelijkController::class,
  *     		"normalization_context"={"groups"={"sjabloon:lezen"},"enable_max_depth" = true, "circular_reference_handler"},
  *     		"denormalization_context"={"groups"={"sjabloon:weergeven"},"enable_max_depth" = true, "circular_reference_handler"},
  *         	"openapi_context" = {
@@ -223,7 +223,7 @@ class Sjabloon implements StringableInterface
 	 *         "openapi_context"={
 	 *             "type"="string",
 	 *             "enum"={"bericht", "pagina"},
-	 *             "example"="simple",
+	 *             "example"="bericht",
 	 *             "required"="true"
 	 *         }
 	 *     }
@@ -277,7 +277,7 @@ class Sjabloon implements StringableInterface
 	 *     length   = 255
 	 * )
 	 * @Assert\NotBlank
-	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven","sjabloon:weergeven"})
 	 * @Assert\Length(
 	 *      min = 0,
 	 *      max = 255,
@@ -333,7 +333,7 @@ class Sjabloon implements StringableInterface
 	 * @ORM\Column(
 	 *     type     = "text"
 	 * )
-	 * @Groups({"sjabloon:lezen","sjabloon:schrijven"})
+	 * @Groups({"sjabloon:lezen","sjabloon:schrijven","sjabloon:weergeven"})
 	 * @Assert\NotBlank
 	 * @Assert\Length(
 	 *      min = 0,
@@ -479,17 +479,18 @@ class Sjabloon implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
-		return $this->orgineleNaam;
-	}
+	public function toString()
+                                                                                 	{
+                                                                                 		return $this->naam;
+                                                                                 	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld loging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                                                                                 	{
+                                                                                 		return $this->toString();
+                                                                                 	}
 	
 	/**
 	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values
@@ -497,13 +498,200 @@ class Sjabloon implements StringableInterface
 	 * @ORM\PrePersist
 	 */
 	public function prePersist()
-	{
-		$this->registratieDatum = new \ Datetime();
-		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
-		return $this;
-	}
+                                                                                 	{
+                                                                                 		$this->registratieDatum = new \ Datetime();
+                                                                                 		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
+                                                                                 		return $this;
+                                                                                 	
+                                                                                 	}
 	public function getUrl()
-	{
-		return 'http://resources.demo.zaakonline.nl/sjablonen/'.$this->id;
-	}
+                                                                                 	{
+                                                                                 		return 'http://resources.demo.zaakonline.nl/sjablonen/'.$this->id;
+                                                                                 	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getIdentificatie(): ?string
+    {
+        return $this->identificatie;
+    }
+
+    public function setIdentificatie(?string $identificatie): self
+    {
+        $this->identificatie = $identificatie;
+
+        return $this;
+    }
+
+    public function getBronOrganisatie(): ?int
+    {
+        return $this->bronOrganisatie;
+    }
+
+    public function setBronOrganisatie(int $bronOrganisatie): self
+    {
+        $this->bronOrganisatie = $bronOrganisatie;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getTitel(): ?string
+    {
+        return $this->titel;
+    }
+
+    public function setTitel(string $titel): self
+    {
+        $this->titel = $titel;
+
+        return $this;
+    }
+
+    public function getBeschrijving(): ?string
+    {
+        return $this->beschrijving;
+    }
+
+    public function setBeschrijving(?string $beschrijving): self
+    {
+        $this->beschrijving = $beschrijving;
+
+        return $this;
+    }
+
+    public function getInhoud(): ?string
+    {
+        return $this->inhoud;
+    }
+
+    public function setInhoud(string $inhoud): self
+    {
+        $this->inhoud = $inhoud;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
+    
+    public function getVariabelen(): ?array
+    {
+    	return $this->variabelen;
+    }
+    
+    public function setVariabelen(?array $variabelen): self
+    {
+    	$this->variabelen = $variabelen;
+    	
+    	return $this;
+    }
+    
+
+    public function getPagina(): ?Pagina
+    {
+        return $this->pagina;
+    }
+
+    public function setPagina(?Pagina $pagina): self
+    {
+        $this->pagina = $pagina;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newSjabloon = $pagina === null ? null : $this;
+        if ($newSjabloon !== $pagina->getSjabloon()) {
+            $pagina->setSjabloon($newSjabloon);
+        }
+
+        return $this;
+    }
+
+    public function getBericht(): ?Bericht
+    {
+        return $this->bericht;
+    }
+
+    public function setBericht(?Bericht $bericht): self
+    {
+        $this->bericht = $bericht;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newSjabloon = $bericht === null ? null : $this;
+        if ($newSjabloon !== $bericht->getSjabloon()) {
+            $bericht->setSjabloon($newSjabloon);
+        }
+
+        return $this;
+    }
+
+    public function getEigenaar(): ?Applicatie
+    {
+        return $this->eigenaar;
+    }
+
+    public function setEigenaar(?Applicatie $eigenaar): self
+    {
+        $this->eigenaar = $eigenaar;
+
+        return $this;
+    }
 }
