@@ -103,7 +103,7 @@ parameters:
             - name: Informatie
               description: "Een Informatie object bestand"
             - name: Afbeelding
-              description: "Een afbeelding bestand."
+              description: "Een afbeeldingbestand."
             - name: Informatieobject
               description: "Een Informatieobject bestand."
             - name: Film

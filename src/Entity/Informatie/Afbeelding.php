@@ -130,7 +130,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Afbeelding implements StringableInterface
 {
 	/**
-	 * Het identificatienummer van deze Afbeelding <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatienummer van deze Afbeelding. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -143,7 +143,7 @@ class Afbeelding implements StringableInterface
 	public $id;
 	
 	/**
-	 * Een document hoort altijd bij een informatie object
+	 * Een document hoort altijd bij een informatie object.
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -222,7 +222,7 @@ class Afbeelding implements StringableInterface
 	/* @todo ruben er zit hier een spelfout in de attribuut naam $orgineleNaam --> $origineleNaam */
 	
 	/**
-	 * @var string  De grote van deze Afbeelding in bytes, waar 1024 bytes ,1KB vertegenwoordigd en 1048576 bytes, 1MB.
+	 * @var string  De grote van deze Afbeelding in bytes, waar 1024 bytes ,1 KB vertegenwoordigd en 1048576 bytes, 1 MB.
 	 *
 	 * @ORM\Column(
 	 * 		type="integer", 		
@@ -301,7 +301,7 @@ class Afbeelding implements StringableInterface
 	public $base64;
 	
 	/**
-	 * Het tijdstip waarop deze Afbeelding is aangemaakt
+	 * Het tijdstip waarop deze Afbeelding is aangemaakt.
 	 *
 	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie", inversedBy="document")
 	 * @ORM\JoinColumn(referencedColumnName="id")
@@ -347,7 +347,7 @@ class Afbeelding implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheert en uitgeeft. De eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheert en uitgeeft. De eigenaar kan dan ook worden gezien in de trant van autorisatie en configuratie, in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *

@@ -130,7 +130,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Film implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van deze Film. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * Het identificatienummer van deze Film. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var int|null
 	 *
@@ -143,7 +143,7 @@ class Film implements StringableInterface
 	public $id;
 	
 	/**
-	 * Een document hoort altijd bij een informatie object
+	 * Een document hoort altijd bij een informatie object.
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -171,7 +171,7 @@ class Film implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe deze Film behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.
+	 * Het RSIN van de organisatie waartoe deze Film behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven.
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -212,7 +212,7 @@ class Film implements StringableInterface
 	public $naam;
 	
 	/**
-	 * @var string De orgiginele naam van deze Film.
+	 * @var string De originele naam van deze Film.
 	 *
 	 * @ORM\Column
 	 * @Assert\NotBlank
@@ -221,7 +221,7 @@ class Film implements StringableInterface
 	public $orgineleNaam;
 	
 	/**
-	 * @var string De grote van deze Film in bytes, waar 1024 bytes overeenkomen met 1KB en 1048576 bytes met 1MB.
+	 * @var string De grote van deze Film in bytes, waar 1024 bytes overeenkomen met 1 KB en 1048576 bytes met 1 MB.
 	 *
 	 * @ORM\Column(
 	 * 		type="integer", 		
@@ -260,7 +260,7 @@ class Film implements StringableInterface
 	/* @todo ruben het moet extension zijn */
 	
 	/**
-	 * @var string The type of the file acording to https://www.iana.org/assignments/media-types/media-types.xhtml.
+	 * @var string Het bestandstype volgens: https://www.iana.org/assignments/media-types/media-types.xhtml.
 	 *
 	 * @ORM\OneToOne(targetEntity="App\Entity\Informatie", inversedBy="document")
 	 * @ORM\JoinColumn(referencedColumnName="id")
@@ -339,7 +339,7 @@ class Film implements StringableInterface
 	public $contactPersoon;
 	
 	/**
-	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Film object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.
+	 * Met eigenaar wordt bijgehouden welke applicatie verantwoordelijk is voor het Film object, en daarvoor de rechten beheert en uitgeeft. De eigenaar kan dan ook worden gezien in de trant van autorisatie en configuratie, in plaats van als onderdeel van het datamodel.
 	 *
 	 * @var App\Entity\Applicatie $eigenaar
 	 *
